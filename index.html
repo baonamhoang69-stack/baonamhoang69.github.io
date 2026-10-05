@@ -1,896 +1,1673 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyBuddy THCS - Bí kíp săn vé vào lớp 10</title>
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --primary: #2563EB;
-            --secondary: #0891B2;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-            --bg-light: #F8FAFC;
-            --white: #FFFFFF;
-            --text-dark: #0F172A;
-            --text-gray: #64748B;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --transition: all 0.3s ease;
-            --nav-height: 70px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            /* Ngăn navbar cố định che mất tiêu đề section khi nhảy anchor */
-            scroll-padding-top: var(--nav-height);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            /* Đảm bảo có thể cuộn tới mọi section */
-            min-height: 100vh;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        header.navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: var(--nav-height);
-        }
-
-        .logo {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo i {
-            color: var(--secondary);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-        }
-
-        .nav-links a {
-            font-weight: 500;
-            color: var(--text-gray);
-            transition: var(--transition);
-            position: relative;
-            padding: 4px 0;
-        }
-
-        .nav-links a:hover,
-        .nav-links a:focus {
-            color: var(--primary);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background: var(--gradient);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            cursor: pointer;
-            border: none;
-            background: none;
-            padding: 8px;
-            line-height: 1;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            padding: 160px 0 100px;
-            text-align: center;
-            background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.1), transparent 400px),
-                        radial-gradient(circle at bottom left, rgba(8, 145, 178, 0.1), transparent 400px);
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 24px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: slideDown 0.8s ease-out forwards;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-gray);
-            max-width: 700px;
-            margin: 0 auto 40px;
-            animation: slideUp 0.8s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 32px;
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--white);
-            background: var(--gradient);
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out 0.4s forwards;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 48px;
-            color: var(--text-dark);
-        }
-
-        .section-title span {
-            color: var(--primary);
-        }
-
-        /* ===== COUNTDOWN ===== */
-        .countdown-section {
-            padding: 80px 0;
-            background: var(--white);
-        }
-
-        .countdown-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .time-box {
-            background: var(--bg-light);
-            border: 2px solid rgba(37, 99, 235, 0.1);
-            padding: 24px 32px;
-            border-radius: var(--radius-lg);
-            text-align: center;
-            min-width: 140px;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-        }
-
-        .time-box:hover {
-            transform: translateY(-5px);
-            border-color: var(--secondary);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .time-box span {
-            display: block;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary);
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .time-box p {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ===== STUDY FILES ===== */
-        .study-files {
-            padding: 80px 0;
-            background: var(--bg-light);
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
-        }
-
-        .card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--gradient);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            color: var(--white);
-            background: var(--gradient);
-            margin-bottom: 24px;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            color: var(--text-dark);
-        }
-
-        .card-desc {
-            color: var(--text-gray);
-            margin-bottom: 24px;
-        }
-
-        .card-btn {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            padding: 12px;
-            border-radius: var(--radius-md);
-            background: var(--bg-light);
-            color: var(--primary);
-            font-weight: 600;
-            transition: var(--transition);
-            border: 1px solid rgba(37, 99, 235, 0.2);
-        }
-
-        .card-btn:hover {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        /* ===== STUDY BUDDIES ===== */
-        .study-buddies {
-            padding: 80px 0;
-            background: var(--white);
-        }
-
-        .profile-card {
-            background: var(--bg-light);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-        }
-
-        .profile-card:hover {
-            transform: scale(1.03);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--gradient);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 16px;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .profile-name {
-            font-size: 1.25rem;
-            color: var(--text-dark);
-            margin-bottom: 4px;
-        }
-
-        .profile-grade {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 16px;
-            font-size: 0.9rem;
-        }
-
-        .profile-details {
-            text-align: left;
-            margin-bottom: 24px;
-            background: var(--white);
-            padding: 16px;
-            border-radius: var(--radius-md);
-        }
-
-        .profile-details p {
-            font-size: 0.95rem;
-            color: var(--text-gray);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .profile-details p:last-child {
-            margin-bottom: 0;
-        }
-
-        .profile-details i {
-            color: var(--secondary);
-            width: 16px;
-            flex-shrink: 0;
-        }
-
-        .contact-btn {
-            display: inline-block;
-            padding: 10px 24px;
-            background: var(--white);
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            border-radius: 50px;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .contact-btn:hover {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .cta-container {
-            text-align: center;
-            margin-top: 56px;
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background: var(--text-dark);
-            color: var(--white);
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        footer p {
-            color: var(--text-gray);
-        }
-
-        footer .logo {
-            justify-content: center;
-            margin-bottom: 16px;
-            color: var(--white);
-        }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* =========================================================
-           REVEAL ANIMATION — FIXED
-           Mặc định LUÔN HIỂN THỊ. Chỉ khi JS thêm class .js-reveal
-           vào <body> thì hiệu ứng ẩn/hiện mới được kích hoạt.
-           Điều này đảm bảo không bao giờ có "màn hình trắng".
-           ========================================================= */
-        .reveal {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        /* Chỉ ẩn khi JS chắc chắn đã chạy */
-        body.js-reveal .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-        }
-
-        body.js-reveal .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Nếu người dùng tắt animation */
-        @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
-            body.js-reveal .reveal,
-            .reveal {
-                opacity: 1 !important;
-                transform: none !important;
-                transition: none !important;
-            }
-            .hero h1,
-            .hero p,
-            .btn {
-                animation: none !important;
-                opacity: 1 !important;
-            }
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1.1rem; }
-            .nav-links {
-                position: absolute;
-                top: var(--nav-height);
-                left: -100%;
-                width: 100%;
-                background: var(--white);
-                flex-direction: column;
-                padding: 24px;
-                box-shadow: var(--shadow-sm);
-                transition: left 0.3s ease;
-                text-align: center;
-                gap: 16px;
-            }
-            .nav-links.active { left: 0; }
-            .mobile-menu-btn { display: block; }
-            .time-box {
-                min-width: 110px;
-                padding: 16px;
-            }
-            .time-box span { font-size: 2rem; }
-            .section-title { font-size: 2rem; }
-            .hero { padding: 130px 0 70px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Góc Tài Liệu Lớp 7 - Học hết sức, chơi hết mình!</title>
+<meta name="description" content="Kho tài liệu, đề thi miễn phí dành cho học sinh lớp 7. Đề kiểm tra 15 phút, giữa kỳ, cuối kỳ môn Toán, Ngữ Văn, Tiếng Anh, KHTN.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* ============ RESET & BIẾN CHUNG ============ */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+
+  :root {
+    --blue-900: #0b2a5b;
+    --blue-700: #1461c9;
+    --blue-600: #1d7ce8;
+    --blue-500: #2b8ef5;
+    --cyan-400: #22d3ee;
+    --cyan-300: #67e8f9;
+    --sky-50: #f0f9ff;
+    --sky-100: #e0f2fe;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-500: #64748b;
+    --gray-700: #334155;
+    --gray-900: #0f172a;
+    --white: #ffffff;
+    --shadow-sm: 0 2px 8px rgba(20, 97, 201, 0.08);
+    --shadow-md: 0 8px 24px rgba(20, 97, 201, 0.12);
+    --shadow-lg: 0 16px 40px rgba(20, 97, 201, 0.18);
+    --radius: 18px;
+  }
+
+  body {
+    font-family: 'Be Vietnam Pro', 'Segoe UI', Tahoma, sans-serif;
+    background: var(--white);
+    color: var(--gray-700);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* ============ NAVBAR ============ */
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(20, 97, 201, 0.08);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .navbar.scrolled {
+    box-shadow: 0 6px 24px rgba(20, 97, 201, 0.10);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    gap: 16px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 1.15rem;
+    color: var(--blue-900);
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: -0.3px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
+    box-shadow: 0 6px 16px rgba(34, 211, 238, 0.35);
+    flex-shrink: 0;
+  }
+
+  .logo span.accent {
+    background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--gray-700);
+    font-weight: 600;
+    font-size: 0.94rem;
+    padding: 9px 15px;
+    border-radius: 10px;
+    transition: all 0.22s ease;
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover {
+    color: var(--blue-700);
+    background: var(--sky-100);
+    transform: translateY(-1px);
+  }
+
+  .nav-links a.nav-cta {
+    background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
+    color: var(--white);
+    box-shadow: 0 6px 16px rgba(29, 124, 232, 0.3);
+  }
+
+  .nav-links a.nav-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(29, 124, 232, 0.4);
+    color: var(--white);
+    background: linear-gradient(135deg, var(--blue-700), var(--cyan-400));
+  }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: var(--sky-100);
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 11px;
+    transition: background 0.2s;
+  }
+
+  .menu-toggle:hover { background: var(--sky-50); }
+
+  .menu-toggle span {
+    display: block;
+    height: 2.5px;
+    width: 100%;
+    background: var(--blue-700);
+    border-radius: 3px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .menu-toggle.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(34, 211, 238, 0.22), transparent 45%),
+      radial-gradient(circle at 88% 12%, rgba(29, 124, 232, 0.20), transparent 48%),
+      linear-gradient(160deg, #eaf6ff 0%, #f5fbff 55%, #ffffff 100%);
+    padding: 78px 0 92px;
+    text-align: center;
+  }
+
+  .hero::before,
+  .hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.55;
+    z-index: 0;
+  }
+
+  .hero::before {
+    width: 320px; height: 320px;
+    background: rgba(34, 211, 238, 0.35);
+    top: -110px; left: -90px;
+    animation: floaty 9s ease-in-out infinite;
+  }
+
+  .hero::after {
+    width: 380px; height: 380px;
+    background: rgba(43, 142, 245, 0.28);
+    bottom: -160px; right: -110px;
+    animation: floaty 11s ease-in-out infinite reverse;
+  }
+
+  @keyframes floaty {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(22px, -26px) scale(1.08); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid rgba(34, 211, 238, 0.5);
+    color: var(--blue-700);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+  }
+
+  .hero-badge .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    animation: pulse-dot 1.8s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5.2vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--blue-900);
+    letter-spacing: -1.2px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 .gradient-text {
+    background: linear-gradient(120deg, var(--blue-600) 10%, var(--cyan-400) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p.subtitle {
+    font-size: clamp(1rem, 2.1vw, 1.18rem);
+    color: var(--gray-500);
+    max-width: 660px;
+    margin: 0 auto 36px;
+    font-weight: 500;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 15px 32px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    line-height: 1.2;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
+    color: var(--white);
+    box-shadow: 0 10px 26px rgba(29, 124, 232, 0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 16px 34px rgba(29, 124, 232, 0.45);
+  }
+
+  .btn-outline {
+    background: var(--white);
+    color: var(--blue-700);
+    border: 2px solid rgba(29, 124, 232, 0.25);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-outline:hover {
+    transform: translateY(-3px) scale(1.02);
+    border-color: var(--blue-600);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 56px;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-item .num {
+    font-size: clamp(1.6rem, 3.6vw, 2.1rem);
+    font-weight: 900;
+    color: var(--blue-700);
+    line-height: 1.1;
+  }
+
+  .stat-item .label {
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  /* ============ TIÊU ĐỀ SECTION ============ */
+  .section {
+    padding: 84px 0;
+  }
+
+  .section-head {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 52px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--blue-600);
+    background: var(--sky-100);
+    padding: 7px 16px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+    font-weight: 900;
+    color: var(--blue-900);
+    letter-spacing: -0.8px;
+    line-height: 1.22;
+    margin-bottom: 12px;
+  }
+
+  .section-head p {
+    color: var(--gray-500);
+    font-size: 1.02rem;
+    font-weight: 500;
+  }
+
+  /* ============ COUNTDOWN ============ */
+  .countdown-section {
+    background: linear-gradient(150deg, var(--blue-900) 0%, #12386f 45%, #0e4a86 100%);
+    position: relative;
+    overflow: hidden;
+    color: var(--white);
+  }
+
+  .countdown-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(34, 211, 238, 0.22), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(43, 142, 245, 0.25), transparent 45%);
+    pointer-events: none;
+  }
+
+  .countdown-section .section-head h2 { color: var(--white); }
+  .countdown-section .section-head p { color: rgba(224, 242, 254, 0.8); }
+
+  .countdown-section .section-tag {
+    background: rgba(34, 211, 238, 0.16);
+    color: var(--cyan-300);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+  }
+
+  .countdown-wrap {
+    position: relative;
+    z-index: 2;
+  }
+
+  .countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .count-box {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(103, 232, 249, 0.22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 26px 12px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  }
+
+  .count-box:hover {
+    transform: translateY(-6px);
+    border-color: rgba(103, 232, 249, 0.55);
+    background: rgba(255, 255, 255, 0.11);
+  }
+
+  .count-box::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cyan-400), var(--blue-500));
+  }
+
+  .count-num {
+    font-size: clamp(2rem, 6.2vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+    background: linear-gradient(180deg, #ffffff 20%, var(--cyan-300) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .count-label {
+    margin-top: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: rgba(186, 230, 253, 0.85);
+  }
+
+  .countdown-note {
+    text-align: center;
+    margin-top: 36px;
+    font-size: 1rem;
+    color: rgba(224, 242, 254, 0.85);
+    font-weight: 600;
+  }
+
+  .countdown-note strong {
+    color: var(--cyan-300);
+    font-weight: 800;
+  }
+
+  .countdown-progress {
+    max-width: 760px;
+    margin: 30px auto 0;
+  }
+
+  .progress-bar-track {
+    height: 12px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(103, 232, 249, 0.2);
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--cyan-400), var(--blue-500));
+    box-shadow: 0 0 18px rgba(34, 211, 238, 0.7);
+    transition: width 1s ease;
+  }
+
+  .progress-caption {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(186, 230, 253, 0.75);
+    margin-top: 10px;
+    letter-spacing: 0.4px;
+  }
+
+  /* ============ KHO TÀI LIỆU ============ */
+  .docs-section {
+    background: var(--gray-50);
+  }
+
+  .subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 26px;
+  }
+
+  .subject-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 30px 26px 26px;
+    box-shadow: var(--shadow-sm);
+    border: 1.5px solid #e8f1fb;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.32s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.32s ease, border-color 0.32s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subject-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--card-gradient);
+  }
+
+  .subject-card:hover {
+    transform: translateY(-9px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--card-border);
+  }
+
+  .subject-card:hover .subject-icon {
+    transform: rotate(-8deg) scale(1.08);
+  }
+
+  .subject-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    font-size: 1.9rem;
+    background: var(--card-bg);
+    margin-bottom: 18px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .subject-card h3 {
+    font-size: 1.28rem;
+    font-weight: 800;
+    color: var(--blue-900);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+
+  .subject-card .subject-desc {
+    font-size: 0.9rem;
+    color: var(--gray-500);
+    font-weight: 500;
+    margin-bottom: 20px;
+    min-height: 42px;
+  }
+
+  .subject-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+  }
+
+  .doc-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 13px 16px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    color: var(--card-color);
+    border: 1.5px solid transparent;
+    transition: all 0.24s ease;
+    font-family: inherit;
+  }
+
+  .doc-btn .arrow {
+    font-size: 0.95rem;
+    transition: transform 0.24s ease;
+  }
+
+  .doc-btn:hover {
+    background: var(--card-gradient);
+    color: var(--white);
+    border-color: var(--card-border);
+    transform: translateX(5px);
+    box-shadow: 0 8px 20px var(--card-shadow);
+  }
+
+  .doc-btn:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Màu riêng cho từng môn */
+  .card-math {
+    --card-gradient: linear-gradient(135deg, #1d7ce8, #22d3ee);
+    --card-bg: #e8f4ff;
+    --card-color: #1461c9;
+    --card-border: #2b8ef5;
+    --card-shadow: rgba(29, 124, 232, 0.3);
+  }
+
+  .card-literature {
+    --card-gradient: linear-gradient(135deg, #f97316, #fbbf24);
+    --card-bg: #fff4e6;
+    --card-color: #c2410c;
+    --card-border: #f97316;
+    --card-shadow: rgba(249, 115, 22, 0.3);
+  }
+
+  .card-english {
+    --card-gradient: linear-gradient(135deg, #7c3aed, #a78bfa);
+    --card-bg: #f3ecff;
+    --card-color: #6d28d9;
+    --card-border: #7c3aed;
+    --card-shadow: rgba(124, 58, 237, 0.3);
+  }
+
+  .card-science {
+    --card-gradient: linear-gradient(135deg, #059669, #34d399);
+    --card-bg: #e7f9f1;
+    --card-color: #047857;
+    --card-border: #059669;
+    --card-shadow: rgba(5, 150, 105, 0.3);
+  }
+
+  /* ============ ĐÓNG GÓP ============ */
+  .contribute-section {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.14), transparent 42%),
+      radial-gradient(circle at 85% 80%, rgba(29, 124, 232, 0.14), transparent 45%),
+      linear-gradient(180deg, #ffffff 0%, #f2f9ff 100%);
+    padding: 84px 0;
+  }
+
+  .contribute-card {
+    background: var(--white);
+    border-radius: 26px;
+    padding: 54px 40px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    border: 1.5px solid #e2effc;
+    position: relative;
+    overflow: hidden;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .contribute-card::before {
+    content: "";
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.18), transparent 70%);
+  }
+
+  .contribute-card::after {
+    content: "";
+    position: absolute;
+    bottom: -90px; left: -90px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29, 124, 232, 0.16), transparent 70%);
+  }
+
+  .contribute-inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  .contribute-emoji {
+    font-size: 3.2rem;
+    line-height: 1;
+    margin-bottom: 18px;
+    display: block;
+    animation: bob 3s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+
+  .contribute-card h2 {
+    font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+    font-weight: 900;
+    color: var(--blue-900);
+    letter-spacing: -0.8px;
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+
+  .contribute-card p {
+    color: var(--gray-500);
+    font-size: 1.02rem;
+    font-weight: 500;
+    max-width: 600px;
+    margin: 0 auto 30px;
+  }
+
+  .btn-donate {
+    background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
+    color: var(--white);
+    font-size: 1.08rem;
+    padding: 19px 44px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(29, 124, 232, 0.38);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-donate::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-20deg);
+    animation: shine 3.2s infinite;
+  }
+
+  @keyframes shine {
+    0%   { left: -120%; }
+    55%  { left: 140%; }
+    100% { left: 140%; }
+  }
+
+  .btn-donate:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 18px 40px rgba(29, 124, 232, 0.5);
+  }
+
+  .contribute-note {
+    margin-top: 20px;
+    font-size: 0.86rem;
+    color: var(--gray-500);
+    font-weight: 600;
+  }
+
+  .contribute-note span {
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+
+  .benefit-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 18px;
+    margin-top: 44px;
+  }
+
+  .benefit-item {
+    background: var(--sky-50);
+    border: 1.5px solid #e2effc;
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  .benefit-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .benefit-item .b-icon {
+    font-size: 1.6rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .benefit-item .b-title {
+    font-weight: 800;
+    color: var(--blue-900);
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+  }
+
+  .benefit-item .b-desc {
+    font-size: 0.82rem;
+    color: var(--gray-500);
+    font-weight: 500;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--blue-900);
+    color: rgba(224, 242, 254, 0.75);
+    padding: 46px 0 30px;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(103, 232, 249, 0.15);
+  }
+
+  .footer-brand {
+    max-width: 340px;
+  }
+
+  .footer-brand .logo {
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .footer-brand p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    font-weight: 500;
+  }
+
+  .footer-col h4 {
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+    letter-spacing: 0.3px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .footer-col a {
+    color: rgba(224, 242, 254, 0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .footer-col a:hover {
+    color: var(--cyan-300);
+    transform: translateX(4px);
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding-top: 24px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(186, 230, 253, 0.6);
+  }
+
+  .footer-bottom .heart {
+    color: #f87171;
+  }
+
+  /* ============ NÚT LÊN ĐẦU TRANG ============ */
+  .to-top {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    border: none;
+    background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
+    color: var(--white);
+    font-size: 1.25rem;
+    cursor: pointer;
+    box-shadow: 0 10px 26px rgba(29, 124, 232, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px);
+    transition: all 0.32s ease;
+    z-index: 900;
+    display: grid;
+    place-items: center;
+  }
+
+  .to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .to-top:hover {
+    transform: translateY(-4px) scale(1.06);
+  }
+
+  /* ============ ANIMATION XUẤT HIỆN ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .nav-links {
+      position: absolute;
+      top: 72px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+      background: var(--white);
+      padding: 16px 20px 22px;
+      border-bottom: 1px solid rgba(20, 97, 201, 0.1);
+      box-shadow: 0 14px 28px rgba(20, 97, 201, 0.12);
+      transform: translateY(-140%);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.34s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.28s ease;
+    }
+
+    .nav-links.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-links a {
+      padding: 13px 16px;
+      font-size: 1rem;
+      background: var(--sky-50);
+    }
+
+    .nav-links a.nav-cta {
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    .menu-toggle {
+      display: flex;
+    }
+
+    .countdown-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .contribute-card {
+      padding: 40px 24px;
+    }
+
+    .footer-inner {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .hero-stats {
+      gap: 28px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .container { padding: 0 16px; }
+    .hero { padding: 56px 0 68px; }
+    .section { padding: 62px 0; }
+    .nav-inner { height: 66px; }
+    .nav-links { top: 66px; }
+    .logo { font-size: 1rem; }
+    .logo-icon { width: 36px; height: 36px; font-size: 1.1rem; }
+    .hero-buttons { flex-direction: column; }
+    .hero-buttons .btn { width: 100%; }
+    .hero-stats { gap: 22px; }
+    .stat-item .num { font-size: 1.5rem; }
+    .count-box { padding: 20px 8px 16px; border-radius: 16px; }
+    .subject-card { padding: 26px 20px 22px; }
+    .contribute-card { padding: 34px 20px; border-radius: 20px; }
+    .btn-donate { width: 100%; padding: 17px 24px; font-size: 1rem; }
+    .to-top { right: 16px; bottom: 16px; width: 46px; height: 46px; }
+    .progress-caption { font-size: 0.72rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+</style>
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="container nav-container">
-            <a href="#home" class="logo">
-                <i class="fa-solid fa-graduation-cap"></i>
-                StudyBuddy THCS
-            </a>
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Mở menu" aria-expanded="false">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <nav class="nav-links" id="nav-links" aria-label="Điều hướng chính">
-                <a href="#home" class="nav-item">Trang chủ</a>
-                <a href="#countdown" class="nav-item">Đếm ngược</a>
-                <a href="#study-files" class="nav-item">Kho tài liệu</a>
-                <a href="#study-buddies" class="nav-item">Tìm bạn học</a>
-            </nav>
-        </div>
-    </header>
+<!-- ==================== NAVBAR ==================== -->
+<header class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="#home" class="logo">
+      <span class="logo-icon">📚</span>
+      <span>Góc Tài Liệu <span class="accent">Lớp 7</span></span>
+    </a>
 
-    <section id="home" class="hero container">
-        <h1>StudyBuddy THCS <br> Bí kíp săn vé vào lớp 10</h1>
-        <p>Hệ sinh thái học tập dành riêng cho học sinh cấp 2. Đồng hành cùng bạn chinh phục điểm cao, vững bước vào ngôi trường THPT mơ ước!</p>
-        <a href="#study-files" class="btn">
-            Khám phá ngay <i class="fa-solid fa-arrow-right"></i>
+    <nav>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Trang chủ</a></li>
+        <li><a href="#tai-lieu">Kho Tài Liệu</a></li>
+        <li><a href="#dem-nguoc">Đếm Ngược</a></li>
+        <li><a href="#dong-gop" class="nav-cta">Đóng Góp Đề Thi</a></li>
+      </ul>
+    </nav>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Mở menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="home">
+  <div class="container hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Kho đề thi miễn phí 100% cho học sinh lớp 7
+    </div>
+
+    <h1>
+      Học hết sức, chơi hết mình,<br>
+      <span class="gradient-text">rinh điểm 10!</span> 🚀
+    </h1>
+
+    <p class="subtitle">
+      Nơi tổng hợp đề kiểm tra 15 phút, đề thi giữa kỳ và cuối kỳ chất lượng cao
+      cho 4 môn học chính. Tải về, luyện tập, và chinh phục mọi kỳ thi lớp 7!
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#tai-lieu" class="btn btn-primary">📥 Khám phá kho tài liệu</a>
+      <a href="#dem-nguoc" class="btn btn-outline">⏰ Xem đếm ngược nghỉ hè</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="num" data-count="4">0</div>
+        <div class="label">Môn học chính</div>
+      </div>
+      <div class="stat-item">
+        <div class="num" data-count="12">0</div>
+        <div class="label">Bộ đề sẵn có</div>
+      </div>
+      <div class="stat-item">
+        <div class="num" data-count="100">0</div>
+        <div class="label">% Miễn phí</div>
+      </div>
+      <div class="stat-item">
+        <div class="num" data-count="24">0</div>
+        <div class="label">/7 Hỗ trợ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ĐẾM NGƯỢC ==================== -->
+<section class="section countdown-section" id="dem-nguoc">
+  <div class="container countdown-wrap">
+    <div class="section-head">
+      <span class="section-tag">⏳ Đếm ngược</span>
+      <h2>Chặng đường tới kỳ nghỉ hè 2027</h2>
+      <p>Mỗi ngày trôi qua là một bước gần hơn tới mùa hè rực rỡ. Cùng cố gắng nhé!</p>
+    </div>
+
+    <div class="countdown-grid" id="countdownGrid">
+      <div class="count-box">
+        <div class="count-num" id="days">00</div>
+        <div class="count-label">Ngày</div>
+      </div>
+      <div class="count-box">
+        <div class="count-num" id="hours">00</div>
+        <div class="count-label">Giờ</div>
+      </div>
+      <div class="count-box">
+        <div class="count-num" id="minutes">00</div>
+        <div class="count-label">Phút</div>
+      </div>
+      <div class="count-box">
+        <div class="count-num" id="seconds">00</div>
+        <div class="count-label">Giây</div>
+      </div>
+    </div>
+
+    <div class="countdown-progress">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-caption">
+        <span>🗓️ Đầu năm học 2026 - 2027</span>
+        <span id="progressText">0% chặng đường</span>
+        <span>🏖️ 31/05/2027</span>
+      </div>
+    </div>
+
+    <p class="countdown-note" id="countdownNote">
+      Đang tính toán thời gian còn lại... <strong>Nghỉ hè 2027</strong> đang chờ chúng ta!
+    </p>
+  </div>
+</section>
+
+<!-- ==================== KHO TÀI LIỆU ==================== -->
+<section class="section docs-section" id="tai-lieu">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">📂 Kho tài liệu</span>
+      <h2>Tài liệu 4 môn học trọng tâm</h2>
+      <p>Chọn môn học của bạn và tải ngay bộ đề phù hợp. Tất cả đều miễn phí và được cập nhật liên tục!</p>
+    </div>
+
+    <div class="subject-grid">
+
+      <!-- TOÁN -->
+      <article class="subject-card card-math reveal">
+        <div class="subject-icon">📐</div>
+        <h3>Môn Toán</h3>
+        <p class="subject-desc">Đại số, Hình học, Xác suất thống kê — luyện tư duy logic và kỹ năng giải toán.</p>
+        <div class="subject-actions">
+          <a href="#" class="doc-btn">
+            <span>📝 Đề kiểm tra 15 phút</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="doc-btn">
+            <span>📘 Đề thi giữa kỳ</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="doc-btn">
+            <span>🏆 Đề thi cuối kỳ</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- NGỮ VĂN -->
+      <article class="subject-card card-literature reveal">
+        <div class="subject-icon">📖</div>
+        <h3>Môn Ngữ Văn</h3>
+        <p class="subject-desc">Đọc hiểu văn bản, nghị luận xã hội và cảm nhận văn học — viết hay, viết sâu.</p>
+        <div class="subject-actions">
+          <a href="#" class="doc-btn">
+            <span>📝 Đề kiểm tra 15 phút</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="doc-btn">
+            <span>📘 Đề thi giữa kỳ</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="doc-btn">
+            <span>🏆 Đề thi cuối kỳ</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- TIẾNG ANH -->
+      <article class="subject-card card-english reveal">
+        <div class="subject-icon">🌐</div>
+        <h3>Môn Tiếng Anh</h3>
+        <p class="subject-desc">Ngữ pháp, từ vựng, đọc hiểu và viết — tự tin giao tiếp và đạt điểm cao.</p>
+        <div class="subject-actions">
+          <a href="#" class="doc-btn">
+            <span>📝 Đề kiểm tra 15 phút</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="doc-btn">
+            <span>📘 Đề thi giữa kỳ</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="doc-btn">
+            <span>🏆 Đề thi cuối kỳ</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- KHTN -->
+      <article class="subject-card card-science reveal">
+        <div class="subject-icon">🔬</div>
+        <h3>Môn Khoa Học Tự Nhiên</h3>
+        <p class="subject-desc">Vật lí, Hóa học, Sinh học — khám phá thế giới tự nhiên đầy thú vị xung quanh em.</p>
+        <div class="subject-actions">
+          <a href="#" class="doc-btn">
+            <span>📝 Đề kiểm tra 15 phút</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="doc-btn">
+            <span>📘 Đề thi giữa kỳ</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="doc-btn">
+            <span>🏆 Đề thi cuối kỳ</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ĐÓNG GÓP ==================== -->
+<section class="contribute-section" id="dong-gop">
+  <div class="container">
+    <div class="contribute-card reveal">
+      <div class="contribute-inner">
+        <span class="contribute-emoji">🤝</span>
+        <h2>Chung tay xây dựng kho đề khổng lồ!</h2>
+        <p>
+          Bạn có đề thi hay, đề cương ôn tập hoặc ảnh chụp đề kiểm tra chất lượng?
+          Hãy chia sẻ để cùng hàng nghìn bạn học sinh lớp 7 trên cả nước cùng tiến bộ nhé!
+        </p>
+
+        <a href="#" class="btn btn-donate">
+          🚀 Đóng góp đề thi của lớp bạn tại đây
         </a>
-    </section>
 
-    <section id="countdown" class="countdown-section">
-        <div class="container reveal">
-            <h2 class="section-title">Chỉ còn <span>...</span> để bứt phá!</h2>
-            <div class="countdown-wrapper">
-                <div class="time-box">
-                    <span id="days">00</span>
-                    <p>Ngày</p>
-                </div>
-                <div class="time-box">
-                    <span id="hours">00</span>
-                    <p>Giờ</p>
-                </div>
-                <div class="time-box">
-                    <span id="minutes">00</span>
-                    <p>Phút</p>
-                </div>
-                <div class="time-box">
-                    <span id="seconds">00</span>
-                    <p>Giây</p>
-                </div>
-            </div>
-            <p style="text-align: center; margin-top: 24px; color: var(--text-gray);">
-                Mục tiêu: Kỳ thi Tuyển sinh vào lớp 10 (Dự kiến 01/06/2027)
-            </p>
+        <p class="contribute-note">
+          Chỉ mất <span>30 giây</span> — Chỉ cần chụp ảnh và gửi lên biểu mẫu. Cảm ơn bạn rất nhiều! 💙
+        </p>
+
+        <div class="benefit-row">
+          <div class="benefit-item">
+            <span class="b-icon">⚡</span>
+            <div class="b-title">Nhanh chóng</div>
+            <div class="b-desc">Gửi đề chỉ trong vài cú click</div>
+          </div>
+          <div class="benefit-item">
+            <span class="b-icon">🆓</span>
+            <div class="b-title">Hoàn toàn miễn phí</div>
+            <div class="b-desc">Không thu phí, không quảng cáo</div>
+          </div>
+          <div class="benefit-item">
+            <span class="b-icon">💎</span>
+            <div class="b-title">Chất lượng</div>
+            <div class="b-desc">Đề được kiểm duyệt trước khi đăng</div>
+          </div>
+          <div class="benefit-item">
+            <span class="b-icon">🌟</span>
+            <div class="b-title">Ghi nhận</div>
+            <div class="b-desc">Tên bạn sẽ xuất hiện ở bảng vàng</div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section id="study-files" class="study-files">
-        <div class="container reveal">
-            <h2 class="section-title">Kho bí kíp <span>ôn thi</span></h2>
-            <div class="grid-3">
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#home" class="logo">
+          <span class="logo-icon">📚</span>
+          <span>Góc Tài Liệu Lớp 7</span>
+        </a>
+        <p>
+          Dự án phi lợi nhuận được xây dựng bởi chính học sinh, vì học sinh.
+          Cùng nhau học tốt hơn mỗi ngày!
+        </p>
+      </div>
 
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fa-solid fa-square-root-variable"></i>
-                    </div>
-                    <h3 class="card-title">Môn Toán</h3>
-                    <p class="card-desc">Đại số &amp; Hình học. Hơn 50 bộ đề thi thử được chọn lọc từ các trường điểm, kèm đáp án chi tiết từng bước.</p>
-                    <a href="#" class="card-btn">Tải tài liệu ngay</a>
-                </div>
+      <div class="footer-col">
+        <h4>Khám phá</h4>
+        <ul>
+          <li><a href="#home">Trang chủ</a></li>
+          <li><a href="#tai-lieu">Kho Tài Liệu</a></li>
+          <li><a href="#dem-nguoc">Đếm Ngược Nghỉ Hè</a></li>
+          <li><a href="#dong-gop">Đóng Góp Đề Thi</a></li>
+        </ul>
+      </div>
 
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fa-solid fa-book-open"></i>
-                    </div>
-                    <h3 class="card-title">Môn Ngữ Văn</h3>
-                    <p class="card-desc">Dàn ý chi tiết các tác phẩm văn học 9, sơ đồ tư duy và bí kíp viết đoạn văn Nghị luận xã hội đạt điểm tối đa.</p>
-                    <a href="#" class="card-btn">Tải tài liệu ngay</a>
-                </div>
+      <div class="footer-col">
+        <h4>Môn học</h4>
+        <ul>
+          <li><a href="#tai-lieu">Toán</a></li>
+          <li><a href="#tai-lieu">Ngữ Văn</a></li>
+          <li><a href="#tai-lieu">Tiếng Anh</a></li>
+          <li><a href="#tai-lieu">Khoa Học Tự Nhiên</a></li>
+        </ul>
+      </div>
+    </div>
 
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fa-solid fa-language"></i>
-                    </div>
-                    <h3 class="card-title">Môn Tiếng Anh</h3>
-                    <p class="card-desc">Tổng hợp ngữ pháp cốt lõi, 1000 từ vựng thường gặp nhất trong đề thi và các mẹo làm bài đọc hiểu siêu tốc.</p>
-                    <a href="#" class="card-btn">Tải tài liệu ngay</a>
-                </div>
+    <div class="footer-bottom">
+      © 2026 Góc Tài Liệu Lớp 7 — Made with <span class="heart">❤</span> by học sinh, for học sinh.
+    </div>
+  </div>
+</footer>
 
-            </div>
-        </div>
-    </section>
+<!-- Nút lên đầu trang -->
+<button class="to-top" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-    <section id="study-buddies" class="study-buddies">
-        <div class="container reveal">
-            <h2 class="section-title">Góc tìm <span>bạn cùng tiến</span></h2>
-            <div class="grid-3">
+<script>
+/* ==================================================
+   1. MENU MOBILE
+   ================================================== */
+const menuToggle = document.getElementById('menuToggle');
+const navLinks   = document.getElementById('navLinks');
 
-                <div class="profile-card">
-                    <div class="avatar">A</div>
-                    <h3 class="profile-name">Nguyễn Văn A</h3>
-                    <p class="profile-grade">Học sinh Lớp 8</p>
-                    <div class="profile-details">
-                        <p><i class="fa-solid fa-bullseye"></i> <strong>Mục tiêu:</strong> THPT Chu Văn An</p>
-                        <p><i class="fa-solid fa-book"></i> <strong>Cần kèm:</strong> Tiếng Anh</p>
-                        <p><i class="fa-solid fa-handshake-angle"></i> <strong>Thế mạnh:</strong> Toán</p>
-                    </div>
-                    <a href="#" class="contact-btn">Kết bạn ngay</a>
-                </div>
+menuToggle.addEventListener('click', function () {
+  const isOpen = navLinks.classList.toggle('open');
+  menuToggle.classList.toggle('active', isOpen);
+  menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
 
-                <div class="profile-card">
-                    <div class="avatar">B</div>
-                    <h3 class="profile-name">Trần Thị B</h3>
-                    <p class="profile-grade">Học sinh Lớp 9</p>
-                    <div class="profile-details">
-                        <p><i class="fa-solid fa-bullseye"></i> <strong>Mục tiêu:</strong> THPT Kim Liên</p>
-                        <p><i class="fa-solid fa-book"></i> <strong>Cần kèm:</strong> Toán Hình</p>
-                        <p><i class="fa-solid fa-handshake-angle"></i> <strong>Thế mạnh:</strong> Ngữ Văn</p>
-                    </div>
-                    <a href="#" class="contact-btn">Kết bạn ngay</a>
-                </div>
+// Đóng menu khi bấm vào 1 link
+navLinks.querySelectorAll('a').forEach(function (link) {
+  link.addEventListener('click', function () {
+    navLinks.classList.remove('open');
+    menuToggle.classList.remove('active');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  });
+});
 
-                <div class="profile-card">
-                    <div class="avatar">C</div>
-                    <h3 class="profile-name">Lê Hoàng C</h3>
-                    <p class="profile-grade">Học sinh Lớp 8</p>
-                    <div class="profile-details">
-                        <p><i class="fa-solid fa-bullseye"></i> <strong>Mục tiêu:</strong> Chuyên KHTN</p>
-                        <p><i class="fa-solid fa-book"></i> <strong>Cần kèm:</strong> Văn (Nghị luận)</p>
-                        <p><i class="fa-solid fa-handshake-angle"></i> <strong>Thế mạnh:</strong> Hóa, Lý</p>
-                    </div>
-                    <a href="#" class="contact-btn">Kết bạn ngay</a>
-                </div>
+// Đóng menu khi click ra ngoài
+document.addEventListener('click', function (e) {
+  if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+    navLinks.classList.remove('open');
+    menuToggle.classList.remove('active');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+});
 
-            </div>
+/* ==================================================
+   2. NAVBAR SCROLL EFFECT + NÚT LÊN ĐẦU TRANG
+   ================================================== */
+const navbar = document.getElementById('navbar');
+const toTop  = document.getElementById('toTop');
 
-            <div class="cta-container">
-                <a href="#" class="btn" style="padding: 16px 40px; font-size: 1.25rem;">
-                    <i class="fa-solid fa-user-plus"></i> Đăng ký tìm bạn ngay
-                </a>
-                <p style="margin-top: 16px; color: var(--text-gray);">
-                    Tham gia cộng đồng hơn 5.000 học sinh đang nỗ lực mỗi ngày!
-                </p>
-            </div>
-        </div>
-    </section>
+window.addEventListener('scroll', function () {
+  const y = window.scrollY;
 
-    <footer>
-        <div class="container">
-            <div class="logo">
-                <i class="fa-solid fa-graduation-cap"></i> StudyBuddy THCS
-            </div>
-            <p>&copy; 2026 StudyBuddy THCS. Tất cả vì tương lai học sinh Việt Nam.</p>
-            <p style="font-size: 0.85rem; margin-top: 8px;">Thiết kế với sự tận tâm. Chúc các em học tốt!</p>
-        </div>
-    </footer>
+  if (y > 12) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
 
-    <script>
-        (function () {
-            'use strict';
+  if (y > 420) {
+    toTop.classList.add('show');
+  } else {
+    toTop.classList.remove('show');
+  }
+}, { passive: true });
 
-            /* =========================================================
-               1. MOBILE MENU TOGGLE
-               ========================================================= */
-            var mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            var navLinks = document.getElementById('nav-links');
-            var navItems = document.querySelectorAll('.nav-item');
+toTop.addEventListener('click', function () {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
-            function closeMobileMenu() {
-                navLinks.classList.remove('active');
-                var icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-xmark');
-                    icon.classList.add('fa-bars');
-                }
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            }
+/* ==================================================
+   3. ĐỒNG HỒ ĐẾM NGƯỢC
+   Mốc: Kỳ nghỉ hè năm học 2026 - 2027
+   -> 00:00 ngày 31/05/2027
+   ================================================== */
+const TARGET_DATE = new Date(2027, 4, 31, 0, 0, 0); // Tháng 5 = index 4
+const START_DATE  = new Date(2026, 8, 5, 0, 0, 0);  // 05/09/2026 - đầu năm học
 
-            if (mobileMenuBtn && navLinks) {
-                mobileMenuBtn.addEventListener('click', function () {
-                    var isOpen = navLinks.classList.toggle('active');
-                    var icon = mobileMenuBtn.querySelector('i');
-                    if (icon) {
-                        if (isOpen) {
-                            icon.classList.remove('fa-bars');
-                            icon.classList.add('fa-xmark');
-                        } else {
-                            icon.classList.remove('fa-xmark');
-                            icon.classList.add('fa-bars');
-                        }
-                    }
-                    mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                });
-            }
+const elDays    = document.getElementById('days');
+const elHours   = document.getElementById('hours');
+const elMinutes = document.getElementById('minutes');
+const elSeconds = document.getElementById('seconds');
+const elNote    = document.getElementById('countdownNote');
+const elProgressFill = document.getElementById('progressFill');
+const elProgressText = document.getElementById('progressText');
 
-            navItems.forEach(function (item) {
-                item.addEventListener('click', closeMobileMenu);
-            });
+function pad(n) {
+  return String(n).padStart(2, '0');
+}
 
-            /* =========================================================
-               2. SMOOTH SCROLL FIX
-               Đảm bảo anchor luôn cuộn tới đúng section, không bị
-               navbar cố định che khuất, và hoạt động trên mọi trình duyệt.
-               ========================================================= */
-            var navHeight = 70; // px — khớp với --nav-height
+function updateProgressBar(now) {
+  const total = TARGET_DATE - START_DATE;
+  const done  = now - START_DATE;
+  let percent = (done / total) * 100;
 
-            document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-                anchor.addEventListener('click', function (e) {
-                    var targetId = this.getAttribute('href');
-                    if (!targetId || targetId === '#') return;
+  if (percent < 0)   percent = 0;
+  if (percent > 100) percent = 100;
 
-                    var target = document.querySelector(targetId);
-                    if (!target) return;
+  elProgressFill.style.width = percent.toFixed(2) + '%';
+  elProgressText.textContent = percent.toFixed(1) + '% chặng đường';
+}
 
-                    e.preventDefault();
+function updateCountdown() {
+  const now  = new Date();
+  let diff   = TARGET_DATE - now;
 
-                    // Tính toán vị trí cuộn có trừ đi chiều cao navbar
-                    var targetPosition = target.getBoundingClientRect().top
-                                       + window.pageYOffset
-                                       - navHeight
-                                       - 10; // khoảng đệm nhỏ
+  updateProgressBar(now);
 
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
+  if (diff <= 0) {
+    elDays.textContent    = '00';
+    elHours.textContent   = '00';
+    elMinutes.textContent = '00';
+    elSeconds.textContent = '00';
+    elNote.innerHTML = '🎉 <strong>Chúc mừng! Kỳ nghỉ hè 2027 đã đến!</strong> Hãy tận hưởng thật trọn vẹn nhé!';
+    elProgressFill.style.width = '100%';
+    elProgressText.textContent = '100% chặng đường';
+    return;
+  }
 
-                    // Cập nhật hash trên thanh địa chỉ (không gây nhảy trang)
-                    if (history.pushState) {
-                        history.pushState(null, '', targetId);
-                    } else {
-                        window.location.hash = targetId;
-                    }
-                });
-            });
+  const totalSeconds = Math.floor(diff / 1000);
 
-            /* =========================================================
-               3. COUNTDOWN TIMER
-               ========================================================= */
-            var countDownDate = new Date("Jun 1, 2027 00:00:00").getTime();
+  const days    = Math.floor(totalSeconds / 86400);
+  const hours   = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-            var daysEl = document.getElementById("days");
-            var hoursEl = document.getElementById("hours");
-            var minutesEl = document.getElementById("minutes");
-            var secondsEl = document.getElementById("seconds");
+  elDays.textContent    = days < 10 ? '0' + days : String(days);
+  elHours.textContent   = pad(hours);
+  elMinutes.textContent = pad(minutes);
+  elSeconds.textContent = pad(seconds);
 
-            function pad(n) {
-                return n < 10 ? "0" + n : String(n);
-            }
+  // Thông điệp động theo số ngày còn lại
+  if (days > 200) {
+    elNote.innerHTML = 'Còn <strong>' + days + ' ngày</strong> nữa là tới kỳ nghỉ hè 2027. Cả năm học dài phía trước — cùng nhau chinh phục nhé! 💪';
+  } else if (days > 100) {
+    elNote.innerHTML = 'Chỉ còn <strong>' + days + ' ngày</strong> nữa thôi! Đã đi được hơn nửa chặng đường rồi, cố lên nào! 🔥';
+  } else if (days > 30) {
+    elNote.innerHTML = 'Chỉ còn <strong>' + days + ' ngày</strong> nữa là được xả hơi! Nước rút thôi nào! 🏃‍♂️';
+  } else if (days > 7) {
+    elNote.innerHTML = 'Wow! Chỉ còn <strong>' + days + ' ngày</strong> nữa! Sắp được nghỉ hè rồi, cố thêm chút nữa nhé! 🎯';
+  } else if (days > 0) {
+    elNote.innerHTML = 'Chỉ còn đúng <strong>' + days + ' ngày</strong> nữa!!! Tinh thần chiến đấu cao độ! ⚡';
+  } else {
+    elNote.innerHTML = 'Còn chưa đầy <strong>1 ngày</strong> nữa! Nghỉ hè đang gõ cửa rồi! 🎊';
+  }
+}
 
-            function updateCountdown() {
-                var now = new Date().getTime();
-                var distance = countDownDate - now;
+updateCountdown();
+setInterval(updateCountdown, 1000);
 
-                if (distance < 0) {
-                    clearInterval(countdownInterval);
-                    if (daysEl) daysEl.innerText = "00";
-                    if (hoursEl) hoursEl.innerText = "00";
-                    if (minutesEl) minutesEl.innerText = "00";
-                    if (secondsEl) secondsEl.innerText = "00";
+/* ==================================================
+   4. ĐẾM SỐ LIỆU Ở HERO (ANIMATION)
+   ================================================== */
+const counters = document.querySelectorAll('[data-count]');
 
-                    var countdownTitle = document.querySelector('#countdown .section-title');
-                    if (countdownTitle) {
-                        countdownTitle.innerHTML = 'Kỳ thi đã <span>bắt đầu!</span>';
-                    }
-                    return;
-                }
+function animateCounter(el) {
+  const target   = parseInt(el.getAttribute('data-count'), 10);
+  const duration = 1500;
+  const startTs  = performance.now();
 
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  function step(ts) {
+    const progress = Math.min((ts - startTs) / duration, 1);
+    // easeOutCubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target);
 
-                if (daysEl) daysEl.innerText = pad(days);
-                if (hoursEl) hoursEl.innerText = pad(hours);
-                if (minutesEl) minutesEl.innerText = pad(minutes);
-                if (secondsEl) secondsEl.innerText = pad(seconds);
-            }
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      el.textContent = target;
+    }
+  }
 
-            updateCountdown(); // chạy ngay lập tức, tránh nháy "00"
-            var countdownInterval = setInterval(updateCountdown, 1000);
+  requestAnimationFrame(step);
+}
 
-            /* =========================================================
-               4. SCROLL REVEAL ANIMATION — FIXED
-               - Chỉ bật hiệu ứng ẩn/hiện nếu trình duyệt hỗ trợ
-                 IntersectionObserver.
-               - Thêm class .js-reveal vào <body> để kích hoạt CSS ẩn.
-               - Nếu có bất kỳ lỗi nào, fallback là hiển thị đầy đủ.
-               ========================================================= */
-            var revealElements = document.querySelectorAll('.reveal');
+let countersStarted = false;
+function checkCounters() {
+  if (countersStarted) return;
+  const first = counters[0];
+  if (!first) return;
 
-            if ('IntersectionObserver' in window && revealElements.length > 0) {
-                // Bật chế độ animation
-                document.body.classList.add('js-reveal');
+  const rect = first.getBoundingClientRect();
+  if (rect.top < window.innerHeight - 60) {
+    countersStarted = true;
+    counters.forEach(animateCounter);
+  }
+}
 
-                // Đảm bảo các phần tử đã ở trong viewport được hiển thị ngay
-                var observer = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('active');
-                            // Ngừng theo dõi sau khi đã hiện
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, {
-                    threshold: 0.05,
-                    rootMargin: '0px 0px -40px 0px'
-                });
+window.addEventListener('scroll', checkCounters, { passive: true });
+window.addEventListener('load', checkCounters);
 
-                revealElements.forEach(function (el) {
-                    observer.observe(el);
-                });
+/* ==================================================
+   5. HIỆU ỨNG XUẤT HIỆN KHI CUỘN (REVEAL)
+   ================================================== */
+const revealEls = document.querySelectorAll('.reveal');
 
-                // Fallback an toàn: sau 3s, hiển thị mọi thứ còn lại
-                setTimeout(function () {
-                    revealElements.forEach(function (el) {
-                        if (!el.classList.contains('active')) {
-                            var rect = el.getBoundingClientRect();
-                            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                                el.classList.add('active');
-                            }
-                        }
-                    });
-                }, 3000);
+if ('IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver(function (entries, observer) {
+    entries.forEach(function (entry, index) {
+      if (entry.isIntersecting) {
+        // Delay nhẹ để tạo hiệu ứng lần lượt
+        setTimeout(function () {
+          entry.target.classList.add('visible');
+        }, index * 90);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -50px 0px'
+  });
 
-            } else {
-                // Không hỗ trợ observer → đảm bảo tất cả hiển thị
-                revealElements.forEach(function (el) {
-                    el.classList.add('active');
-                });
-            }
+  revealEls.forEach(function (el) {
+    revealObserver.observe(el);
+  });
+} else {
+  // Fallback cho trình duyệt cũ
+  revealEls.forEach(function (el) {
+    el.classList.add('visible');
+  });
+}
 
-            /* =========================================================
-               5. FALLBACK AN TOÀN CUỐI CÙNG
-               Sau khi load xong, nếu vì lý do gì đó mà một .reveal
-               vẫn bị ẩn (opacity = 0), ta cưỡng chế hiển thị.
-               ========================================================= */
-            window.addEventListener('load', function () {
-                setTimeout(function () {
-                    revealElements.forEach(function (el) {
-                        var style = window.getComputedStyle(el);
-                        if (parseFloat(style.opacity) === 0 && !el.classList.contains('active')) {
-                            el.classList.add('active');
-                        }
-                    });
-                }, 500);
-            });
+/* ==================================================
+   6. HIỆU ỨNG GÕ CHỮ NHẸ CHO SLOGAN (TÙY CHỌN)
+   ================================================== */
+// Giữ nguyên slogan tĩnh để đảm bảo hiển thị tốt trên mọi thiết bị.
+// Nếu muốn bật hiệu ứng gõ chữ, bạn có thể tự thêm vào đây.
 
-        })();
-    </script>
+/* ==================================================
+   7. XỬ LÝ NÚT TẢI ĐỀ (THÔNG BÁO TẠM THỜI)
+   -> Khi bạn chèn link Google Drive thật, hãy xóa
+      hoặc sửa đoạn này để link hoạt động bình thường.
+   ================================================== */
+document.querySelectorAll('.doc-btn').forEach(function (btn) {
+  btn.addEventListener('click', function (e) {
+    const href = btn.getAttribute('href');
+    if (!href || href === '#') {
+      e.preventDefault();
+      showToast('📌 Link tài liệu đang được cập nhật. Bạn quay lại sau nhé!');
+    }
+  });
+});
+
+/* ==================================================
+   8. TOAST THÔNG BÁO
+   ================================================== */
+function showToast(message) {
+  let toast = document.getElementById('appToast');
+
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'appToast';
+    toast.style.cssText = [
+      'position:fixed',
+      'left:50%',
+      'bottom:26px',
+      'transform:translate(-50%, 120%)',
+      'background:linear-gradient(135deg,#1461c9,#22d3ee)',
+      'color:#fff',
+      'padding:14px 24px',
+      'border-radius:14px',
+      'font-weight:700',
+      'font-size:0.92rem',
+      'font-family:inherit',
+      'box-shadow:0 14px 34px rgba(29,124,232,0.42)',
+      'z-index:2000',
+      'max-width:90vw',
+      'text-align:center',
+      'opacity:0',
+      'transition:transform .38s cubic-bezier(.34,1.4,.64,1), opacity .38s ease',
+      'pointer-events:none'
+    ].join(';');
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+
+  requestAnimationFrame(function () {
+    toast.style.transform = 'translate(-50%, 0)';
+    toast.style.opacity = '1';
+  });
+
+  clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(function () {
+    toast.style.transform = 'translate(-50%, 120%)';
+    toast.style.opacity = '0';
+  }, 3200);
+}
+
+/* ==================================================
+   9. XỬ LÝ NÚT ĐÓNG GÓP (THÔNG BÁO TẠM THỜI)
+   -> Khi bạn chèn link Google Form thật, hãy xóa
+      hoặc sửa đoạn này.
+   ================================================== */
+const donateBtn = document.querySelector('.btn-donate');
+if (donateBtn) {
+  donateBtn.addEventListener('click', function (e) {
+    const href = donateBtn.getAttribute('href');
+    if (!href || href === '#') {
+      e.preventDefault();
+      showToast('📝 Biểu mẫu đóng góp đang được hoàn thiện. Cảm ơn bạn đã quan tâm! 💙');
+    }
+  });
+}
+
+/* ==================================================
+   10. CUỘN MƯỢT CHO CÁC LINK NEO (FALLBACK)
+   ================================================== */
+document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+  anchor.addEventListener('click', function (e) {
+    const targetId = anchor.getAttribute('href');
+    if (targetId === '#' || targetId.length < 2) return;
+
+    const targetEl = document.querySelector(targetId);
+    if (!targetEl) return;
+
+    e.preventDefault();
+
+    const navHeight = navbar.offsetHeight + 12;
+    const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navHeight;
+
+    window.scrollTo({
+      top: topPos < 0 ? 0 : topPos,
+      behavior: 'smooth'
+    });
+  });
+});
+
+/* ==================================================
+   11. LOG NHẸ NHÀNG (CHO VUI)
+   ================================================== */
+console.log(
+  '%c📚 Góc Tài Liệu Lớp 7 %c Học hết sức, chơi hết mình, rinh điểm 10! 🚀',
+  'background:linear-gradient(135deg,#1461c9,#22d3ee);color:#fff;padding:6px 12px;border-radius:8px 0 0 8px;font-weight:800;',
+  'background:#0b2a5b;color:#67e8f9;padding:6px 12px;border-radius:0 8px 8px 0;font-weight:600;'
+);
+</script>
+
 </body>
 </html>
