@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini Studio & JS Runner</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-main: #131314;
+      --bg-sidebar: #1e1f20;
+      --bg-surface: #28292a;
+      --bg-input: #1e1f20;
+      --text-main: #e3e3e3;
+      --text-sub: #8e918f;
+      --border-color: #333537;
+      --accent-blue: #4285f4;
+      --accent-purple: #a87ffb;
+      --accent-gradient: linear-gradient(135deg, #4285f4 0%, #9b51e0 50%, #e91e63 100%);
+      --sidebar-width: 260px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-sidebar);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .sidebar.collapsed {
+      width: 68px;
+    }
+
+    .sidebar.collapsed .hide-on-collapse {
+      display: none !important;
+    }
+
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 20px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .menu-btn:hover {
+      background-color: var(--bg-surface);
+    }
+
+    .new-chat-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #1a1a1c;
+      border: 1px solid var(--border-color);
+      color: var(--text-sub);
+      padding: 10px 16px;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .new-chat-btn:hover {
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+    }
+
+    .chat-history {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: calc(100vh - 250px);
+      overflow-y: auto;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 20px;
+      color: var(--text-main);
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background 0.2s;
+    }
+
+    .history-item:hover {
+      background-color: var(--bg-surface);
+    }
+
+    .sidebar-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* --- MAIN CONTENT --- */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+    }
+
+    .model-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-sub);
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+
+    .model-selector:hover {
+      background-color: var(--bg-sidebar);
+      color: var(--text-main);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-test-js {
+      background: linear-gradient(135deg, #2b5cff, #8b3dff);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .btn-test-js:hover {
+      transform: translateY(-2px);
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 15%;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+    }
+
+    .welcome-screen {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-bottom: 60px;
+    }
+
+    .greeting-text {
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .greeting-text span {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .greeting-sub {
+      font-size: 48px;
+      color: #444746;
+      font-weight: 500;
+    }
+
+    .suggestion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .suggestion-card {
+      background-color: var(--bg-sidebar);
+      padding: 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 140px;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .suggestion-card:hover {
+      background-color: var(--bg-surface);
+      border-color: var(--border-color);
+    }
+
+    .suggestion-card p {
+      font-size: 14px;
+      color: var(--text-main);
+    }
+
+    .suggestion-card i {
+      align-self: flex-end;
+      background: var(--bg-main);
+      padding: 8px;
+      border-radius: 50%;
+      color: var(--text-sub);
+    }
+
+    .message-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 20px 0 100px 0;
+    }
+
+    .message {
+      display: flex;
+      gap: 16px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .message.user .message-icon {
+      background-color: #3f51b5;
+    }
+
+    .message.gemini .message-icon {
+      background: var(--accent-gradient);
+    }
+
+    .message-content {
+      flex: 1;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .message-content pre {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .message-content code {
+      font-family: 'Fira Code', monospace;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .input-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 15% 20px 15%;
+      background: linear-gradient(180deg, transparent 0%, var(--bg-main) 40%);
+    }
+
+    .input-box {
+      background-color: var(--bg-input);
+      border-radius: 28px;
+      padding: 12px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid var(--border-color);
+      transition: border-color 0.2s;
+    }
+
+    .input-box:focus-within {
+      border-color: #555;
+    }
+
+    .input-box textarea {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 16px;
+      resize: none;
+      max-height: 150px;
+      height: 24px;
+    }
+
+    .input-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .action-icons {
+      display: flex;
+      gap: 12px;
+      color: var(--text-sub);
+    }
+
+    .action-icons i {
+      cursor: pointer;
+      font-size: 18px;
+      padding: 6px;
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+
+    .action-icons i:hover {
+      color: var(--text-main);
+      background-color: var(--bg-surface);
+    }
+
+    .send-btn {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+
+    .send-btn.active {
+      color: var(--accent-blue);
+    }
+
+    /* JAVASCRIPT / BLOCKSTUDIO RUNNER DRAWER */
+    .runner-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 450px;
+      height: 100vh;
+      background-color: #161718;
+      border-left: 1px solid var(--border-color);
+      z-index: 100;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+      flex-direction: column;
+      animation: slideLeft 0.3s ease;
+    }
+
+    @keyframes slideLeft {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    .runner-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1e1f20;
+    }
+
+    .runner-title {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-purple);
+    }
+
+    .close-runner {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .runner-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 16px;
+      overflow-y: auto;
+    }
+
+    .code-editor {
+      width: 100%;
+      height: 220px;
+      background-color: #0d0d0e;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: #00ff66;
+      font-family: 'Fira Code', monospace;
+      padding: 12px;
+      font-size: 13px;
+      outline: none;
+      resize: vertical;
+    }
+
+    .runner-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-run {
+      flex: 1;
+      background-color: #238636;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-run:hover {
+      background-color: #2ea043;
+    }
+
+    .btn-clear {
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .console-output {
+      flex: 1;
+      background-color: #000;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      color: #e3e3e3;
+      overflow-y: auto;
+      min-height: 150px;
+    }
+
+    .log-entry {
+      margin-bottom: 6px;
+      word-break: break-all;
+    }
+
+    .log-info { color: #8ab4f8; }
+    .log-error { color: #f28b82; }
+    .log-success { color: #81c995; }
+
+    @media (max-width: 768px) {
+      .chat-container, .input-container { padding-left: 16px; padding-right: 16px; }
+      .greeting-text, .greeting-sub { font-size: 32px; }
+      .sidebar { position: absolute; height: 100%; transform: translateX(-100%); }
+      .sidebar.mobile-open { transform: translateX(0); }
+      .runner-modal { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <button class="menu-btn" id="toggle-sidebar" title="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      
+      <button class="new-chat-btn" id="new-chat-btn">
+        <i class="fa-solid fa-plus"></i>
+        <span class="hide-on-collapse">Cuộc trò chuyện mới</span>
+      </button>
+
+      <div class="chat-history hide-on-collapse">
+        <div class="history-item"><i class="fa-regular fa-message"></i> Test JavaScript Logic</div>
+        <div class="history-item"><i class="fa-regular fa-message"></i> Blockstudio API Call</div>
+        <div class="history-item"><i class="fa-regular fa-message"></i> GitHub Pages Sandbox</div>
+      </div>
+    </div>
+
+    <div class="sidebar-bottom hide-on-collapse">
+      <div class="history-item"><i class="fa-regular fa-circle-question"></i> Trợ giúp</div>
+      <div class="history-item"><i class="fa-solid fa-clock-rotate-left"></i> Hoạt động</div>
+      <div class="history-item"><i class="fa-solid fa-gear"></i> Cài đặt</div>
+    </div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="main-content">
+    
+    <div class="header">
+      <div class="model-selector">
+        Gemini 2.0 Flash <i class="fa-solid fa-chevron-down" style="font-size: 12px;"></i>
+      </div>
+      
+      <div class="header-actions">
+        <button class="btn-test-js" id="open-runner-btn">
+          <i class="fa-solid fa-code"></i> Blockstudio JS Sandbox
+        </button>
+        <div class="avatar">U</div>
+      </div>
+    </div>
+
+    <div class="chat-container" id="chat-container">
+      
+      <div class="welcome-screen" id="welcome-screen">
+        <div>
+          <h1 class="greeting-text"><span>Xin chào, Dev</span></h1>
+          <h1 class="greeting-sub">Hôm nay bạn muốn chạy thử JS hay Blockstudio?</h1>
+        </div>
+
+        <div class="suggestion-grid">
+          <div class="suggestion-card" onclick="setInput('Viết code JS tạo hàm tính tổng dãy số Fibonacci')">
+            <p>Viết code JS tính dãy số Fibonacci</p>
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <div class="suggestion-card" onclick="setInput('Tạo mẫu Blockstudio component hiển thị card sản phẩm')">
+            <p>Tạo mẫu Blockstudio component card</p>
+            <i class="fa-solid fa-cubes"></i>
+          </div>
+          <div class="suggestion-card" onclick="setInput('Test hàm async fetch API bằng Javascript')">
+            <p>Test hàm async fetch API với JS</p>
+            <i class="fa-solid fa-network-wired"></i>
+          </div>
+          <div class="suggestion-card" onclick="setInput('Hướng dẫn nhúng Blockstudio JS SDK')">
+            <p>Hướng dẫn nhúng Blockstudio JS SDK</p>
+            <i class="fa-solid fa-terminal"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="message-list" id="message-list" style="display: none;"></div>
+
+    </div>
+
+    <div class="input-container">
+      <div class="input-box">
+        <textarea id="user-input" rows="1" placeholder="Hỏi Gemini hoặc nhập JavaScript code..."></textarea>
+        <div class="input-actions">
+          <div class="action-icons">
+            <i class="fa-solid fa-image" title="Tải ảnh"></i>
+            <i class="fa-solid fa-microphone" title="Ghi âm"></i>
+            <i class="fa-solid fa-paperclip" title="Đính kèm file"></i>
+          </div>
+          <button class="send-btn" id="send-btn">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONSOLE MODAL -->
+  <div class="runner-modal" id="runner-modal">
+    <div class="runner-header">
+      <div class="runner-title">
+        <i class="fa-solid fa-terminal"></i> Blockstudio JS Execution Console
+      </div>
+      <button class="close-runner" id="close-runner">&times;</button>
+    </div>
+
+    <div class="runner-body">
+      <label style="font-size: 12px; color: var(--text-sub);">Nhập code JavaScript / Blockstudio để thực thi:</label>
+      <textarea class="code-editor" id="js-editor" spellcheck="false">// Code mẫu Blockstudio & JavaScript Test
+const blockstudio = {
+  version: "2.4.0",
+  init: function() {
+    console.log("🚀 Blockstudio SDK initialized successfully!");
+  },
+  renderBlock: function(name, data) {
+    return `<div class="bs-block">[Block: ${name}] - ${JSON.stringify(data)}</div>`;
+  }
+};
+
+blockstudio.init();
+const card = blockstudio.renderBlock("HeaderCard", { title: "Gemini UI Test", status: "Active" });
+console.log("Rendered Output:", card);
+
+const numbers = [10, 20, 30, 40];
+const total = numbers.reduce((acc, curr) => acc + curr, 0);
+console.log("Tổng mảng test:", total);
+</textarea>
+
+      <div class="runner-controls">
+        <button class="btn-run" id="btn-run-code">
+          <i class="fa-solid fa-play"></i> Chạy Code (Run)
+        </button>
+        <button class="btn-clear" id="btn-clear-console">Xóa Console</button>
+      </div>
+
+      <label style="font-size: 12px; color: var(--text-sub);">Console Log Output:</label>
+      <div class="console-output" id="console-output">
+        <div class="log-entry log-info">> Sẵn sàng chạy code JavaScript...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+    const newChatBtn = document.getElementById('new-chat-btn');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatContainer = document.getElementById('chat-container');
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const messageList = document.getElementById('message-list');
+    
+    const openRunnerBtn = document.getElementById('open-runner-btn');
+    const closeRunnerBtn = document.getElementById('close-runner');
+    const runnerModal = document.getElementById('runner-modal');
+    const jsEditor = document.getElementById('js-editor');
+    const btnRunCode = document.getElementById('btn-run-code');
+    const btnClearConsole = document.getElementById('btn-clear-console');
+    const consoleOutput = document.getElementById('console-output');
+
+    toggleSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+    });
+
+    userInput.addEventListener('input', () => {
+      userInput.style.height = 'auto';
+      userInput.style.height = userInput.scrollHeight + 'px';
+      if (userInput.value.trim() !== '') {
+        sendBtn.classList.add('active');
+      } else {
+        sendBtn.classList.remove('active');
+      }
+    });
+
+    function setInput(text) {
+      userInput.value = text;
+      userInput.dispatchEvent(new Event('input'));
+      userInput.focus();
+    }
+
+    newChatBtn.addEventListener('click', () => {
+      messageList.innerHTML = '';
+      messageList.style.display = 'none';
+      welcomeScreen.style.display = 'flex';
+      userInput.value = '';
+    });
+
+    function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      welcomeScreen.style.display = 'none';
+      messageList.style.display = 'flex';
+
+      appendMessage('user', text);
+      userInput.value = '';
+      userInput.style.height = '24px';
+      sendBtn.classList.remove('active');
+
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      setTimeout(() => {
+        let aiResponse = generateSimulatedResponse(text);
+        appendMessage('gemini', aiResponse);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }, 700);
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function appendMessage(sender, content) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${sender}`;
+
+      const iconDiv = document.createElement('div');
+      iconDiv.className = 'message-icon';
+      iconDiv.innerHTML = sender === 'user' ? '<i class="fa-solid fa-user"></i>' : '<i class="fa-solid fa-sparkles"></i>';
+
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      
+      let formattedText = formatCodeBlocks(content);
+      contentDiv.innerHTML = formattedText;
+
+      msgDiv.appendChild(iconDiv);
+      msgDiv.appendChild(contentDiv);
+      messageList.appendChild(msgDiv);
+    }
+
+    function formatCodeBlocks(text) {
+      let codeRegex = /```(?:js|javascript)?([\s\S]*?)```/g;
+      return text.replace(codeRegex, function(match, code) {
+        return `<pre><code>${escapeHtml(code.trim())}</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>`;
+      }).replace(/\n/g, '<br>');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    window.copyCode = function(button) {
+      const code = button.previousElementSibling.innerText;
+      navigator.clipboard.writeText(code);
+      button.innerText = 'Copied!';
+      setTimeout(() => button.innerText = 'Copy', 2000);
+    };
+
+    function generateSimulatedResponse(prompt) {
+      const lower = prompt.toLowerCase();
+      if (lower.includes('js') || lower.includes('code') || lower.includes('javascript') || lower.includes('fibonacci')) {
+        return `Dưới đây là đoạn mã JavaScript test:
+
+\`\`\`js
+function fibonacci(n) {
+  let sequence = [0, 1];
+  for (let i = 2; i < n; i++) {
+    sequence.push(sequence[i - 1] + sequence[i - 2]);
+  }
+  return sequence;
+}
+
+console.log("Dãy Fibonacci (10 phần tử):", fibonacci(10));
+\`\`\`
+
+Bạn có thể bấm vào nút **"Blockstudio JS Sandbox"** để mở console chạy thử ngay!`;
+      }
+
+      return `Chào bạn! Trang web đã được đưa lên GitHub thành công. Bạn có thể thử nghiệm tính năng gõ mã JavaScript hoặc mở **Blockstudio JS Sandbox** ở góc phải màn hình!`;
+    }
+
+    openRunnerBtn.addEventListener('click', () => {
+      runnerModal.style.display = 'flex';
+    });
+
+    closeRunnerBtn.addEventListener('click', () => {
+      runnerModal.style.display = 'none';
+    });
+
+    btnClearConsole.addEventListener('click', () => {
+      consoleOutput.innerHTML = '';
+    });
+
+    btnRunCode.addEventListener('click', () => {
+      const code = jsEditor.value;
+      executeJS(code);
+    });
+
+    function logToConsole(msg, type = 'info') {
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      let text = typeof msg === 'object' ? JSON.stringify(msg, null, 2) : msg;
+      entry.innerText = `> ${text}`;
+      consoleOutput.appendChild(entry);
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+
+    function executeJS(code) {
+      logToConsole("--- Bắt đầu thực thi ---", "info");
+      const customConsole = {
+        log: (...args) => args.forEach(a => logToConsole(a, 'success')),
+        error: (...args) => args.forEach(a => logToConsole(a, 'error')),
+        warn: (...args) => args.forEach(a => logToConsole(a, 'info'))
+      };
+
+      try {
+        const runFn = new Function('console', code);
+        runFn(customConsole);
+      } catch (err) {
+        logToConsole(`Lỗi thực thi: ${err.message}`, 'error');
+      }
+    }
+  </script>
+</body>
+</html>
