@@ -9,7 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  /* ============ RESET & BIẾN CHUNG ============ */
+  /* ================================================================
+     1. RESET & BIẾN CHUNG
+     ================================================================ */
   * {
     margin: 0;
     padding: 0;
@@ -53,7 +55,9 @@
     padding: 0 20px;
   }
 
-  /* ============ NAVBAR ============ */
+  /* ================================================================
+     2. NAVBAR (LOGO BẰNG ẢNH — logo.png)
+     ================================================================ */
   .navbar {
     position: sticky;
     top: 0;
@@ -77,31 +81,74 @@
     gap: 16px;
   }
 
+  /* --- Logo: ẢNH + TEXT --- */
   .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     font-weight: 900;
     font-size: 1.15rem;
     color: var(--blue-900);
     text-decoration: none;
     white-space: nowrap;
     letter-spacing: -0.3px;
+    transition: transform 0.25s ease;
   }
 
-  .logo-icon {
-    width: 40px;
-    height: 40px;
+  .logo:hover {
+    transform: translateY(-1px);
+  }
+
+  .logo img {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: transparent;
+    flex-shrink: 0;
+    filter: drop-shadow(0 4px 10px rgba(34, 211, 238, 0.30));
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .logo:hover img {
+    transform: rotate(-6deg) scale(1.06);
+  }
+
+  /* Fallback nếu ảnh logo.png không tồn tại: hiển thị khối gradient */
+  .logo .logo-fallback {
+    width: 48px;
+    height: 48px;
     border-radius: 12px;
     background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
     display: grid;
     place-items: center;
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     box-shadow: 0 6px 16px rgba(34, 211, 238, 0.35);
     flex-shrink: 0;
   }
 
-  .logo span.accent {
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .logo-text .line-1 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--gray-500);
+  }
+
+  .logo-text .line-2 {
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+    color: var(--blue-900);
+  }
+
+  .logo-text .line-2 .accent {
     background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
     -webkit-background-clip: text;
     background-clip: text;
@@ -113,6 +160,10 @@
     align-items: center;
     gap: 6px;
     list-style: none;
+  }
+
+  .nav-links > li {
+    position: relative;
   }
 
   .nav-links a {
@@ -127,7 +178,7 @@
     white-space: nowrap;
   }
 
-  .nav-links a:hover {
+  .nav-links > li > a:hover {
     color: var(--blue-700);
     background: var(--sky-100);
     transform: translateY(-1px);
@@ -146,6 +197,96 @@
     background: linear-gradient(135deg, var(--blue-700), var(--cyan-400));
   }
 
+  /* ---- Dropdown ---- */
+  .dropdown-caret {
+    display: inline-block;
+    font-size: 0.7rem;
+    margin-left: 5px;
+    transform: translateY(-1px);
+    transition: transform 0.25s ease;
+  }
+
+  .has-dropdown:hover .dropdown-caret,
+  .has-dropdown:focus-within .dropdown-caret {
+    transform: translateY(1px) rotate(180deg);
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 230px;
+    list-style: none;
+    background: var(--white);
+    border: 1px solid #e4f0fc;
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 18px 42px rgba(20, 97, 201, 0.16);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.24s ease, transform 0.28s cubic-bezier(0.34, 1.3, 0.64, 1), visibility 0.24s;
+  }
+
+  .dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 24px;
+    width: 12px;
+    height: 12px;
+    background: var(--white);
+    border-left: 1px solid #e4f0fc;
+    border-top: 1px solid #e4f0fc;
+    transform: rotate(45deg);
+    border-radius: 3px 0 0 0;
+  }
+
+  .has-dropdown:hover .dropdown-menu,
+  .has-dropdown:focus-within .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown-menu li {
+    list-style: none;
+  }
+
+  .dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    background: transparent;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .dropdown-menu a:hover {
+    background: var(--sky-50);
+    color: var(--blue-700);
+    transform: translateX(4px);
+  }
+
+  .dropdown-menu .dd-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dd-dot.dot-math       { background: linear-gradient(135deg, #1d7ce8, #22d3ee); }
+  .dd-dot.dot-literature { background: linear-gradient(135deg, #f97316, #fbbf24); }
+  .dd-dot.dot-english    { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+  .dd-dot.dot-science    { background: linear-gradient(135deg, #059669, #34d399); }
+
+  /* ---- Menu mobile ---- */
   .menu-toggle {
     display: none;
     flex-direction: column;
@@ -159,6 +300,7 @@
     cursor: pointer;
     padding: 11px;
     transition: background 0.2s;
+    flex-shrink: 0;
   }
 
   .menu-toggle:hover { background: var(--sky-50); }
@@ -176,7 +318,9 @@
   .menu-toggle.active span:nth-child(2) { opacity: 0; }
   .menu-toggle.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-  /* ============ HERO ============ */
+  /* ================================================================
+     3. HERO
+     ================================================================ */
   .hero {
     position: relative;
     overflow: hidden;
@@ -349,7 +493,9 @@
     margin-top: 4px;
   }
 
-  /* ============ TIÊU ĐỀ SECTION ============ */
+  /* ================================================================
+     4. TIÊU ĐỀ SECTION
+     ================================================================ */
   .section {
     padding: 84px 0;
   }
@@ -388,7 +534,9 @@
     font-weight: 500;
   }
 
-  /* ============ COUNTDOWN ============ */
+  /* ================================================================
+     5. ĐẾM NGƯỢC
+     ================================================================ */
   .countdown-section {
     background: linear-gradient(150deg, var(--blue-900) 0%, #12386f 45%, #0e4a86 100%);
     position: relative;
@@ -522,151 +670,255 @@
     letter-spacing: 0.4px;
   }
 
-  /* ============ KHO TÀI LIỆU ============ */
+  /* ================================================================
+     6. KHO TÀI LIỆU — THIẾT KẾ TỐI GIẢN (1 THẺ / 1 MÔN)
+     ================================================================ */
   .docs-section {
-    background: var(--gray-50);
+    background:
+      radial-gradient(circle at 10% 0%, rgba(34, 211, 238, 0.08), transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(29, 124, 232, 0.08), transparent 40%),
+      var(--gray-50);
   }
 
   .subject-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 26px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  /* Wrapper giữ ID để cuộn mượt */
+  .subject-item {
+    display: flex;
+    scroll-margin-top: 96px;
   }
 
   .subject-card {
+    width: 100%;
     background: var(--white);
-    border-radius: var(--radius);
-    padding: 30px 26px 26px;
-    box-shadow: var(--shadow-sm);
-    border: 1.5px solid #e8f1fb;
+    border-radius: 26px;
+    padding: 42px 28px 30px;
+    text-align: center;
     position: relative;
     overflow: hidden;
-    transition: transform 0.32s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.32s ease, border-color 0.32s ease;
+    border: 1.5px solid #e8f1fb;
+    box-shadow: 0 4px 18px rgba(20, 97, 201, 0.06);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    transition:
+      transform 0.38s cubic-bezier(0.34, 1.4, 0.64, 1),
+      box-shadow 0.38s ease,
+      border-color 0.38s ease;
   }
 
+  /* Thanh màu gradient trên đỉnh thẻ */
   .subject-card::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 5px;
-    background: var(--card-gradient);
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--c1), var(--c2));
+    transition: height 0.35s ease;
+  }
+
+  /* Vệt sáng mờ phía sau icon */
+  .subject-card::after {
+    content: "";
+    position: absolute;
+    top: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--glow-soft), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
   }
 
   .subject-card:hover {
-    transform: translateY(-9px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--card-border);
+    transform: translateY(-10px);
+    box-shadow: 0 24px 52px var(--glow);
+    border-color: var(--ring);
   }
 
-  .subject-card:hover .subject-icon {
-    transform: rotate(-8deg) scale(1.08);
+  .subject-card:hover::before {
+    height: 8px;
+  }
+
+  .subject-card:hover::after {
+    opacity: 1;
+  }
+
+  .subject-card > * {
+    position: relative;
+    z-index: 2;
   }
 
   .subject-icon {
-    width: 62px;
-    height: 62px;
-    border-radius: 18px;
+    width: 92px;
+    height: 92px;
+    border-radius: 28px;
     display: grid;
     place-items: center;
-    font-size: 1.9rem;
-    background: var(--card-bg);
-    margin-bottom: 18px;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 2.7rem;
+    line-height: 1;
+    background: var(--soft);
+    border: 2px solid var(--ring);
+    margin-bottom: 22px;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
   }
 
-  .subject-card h3 {
-    font-size: 1.28rem;
-    font-weight: 800;
+  .subject-card:hover .subject-icon {
+    transform: translateY(-5px) rotate(-6deg) scale(1.07);
+  }
+
+  .subject-title {
+    font-size: 1.42rem;
+    font-weight: 900;
     color: var(--blue-900);
-    margin-bottom: 6px;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    margin-bottom: 8px;
   }
 
-  .subject-card .subject-desc {
-    font-size: 0.9rem;
+  .subject-desc {
+    font-size: 0.92rem;
     color: var(--gray-500);
     font-weight: 500;
-    margin-bottom: 20px;
-    min-height: 42px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+    max-width: 260px;
   }
 
-  .subject-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: auto;
-  }
-
-  .doc-btn {
-    display: flex;
+  .subject-meta {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    text-decoration: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.74rem;
     font-weight: 700;
-    font-size: 0.92rem;
-    padding: 13px 16px;
-    border-radius: 12px;
-    background: var(--card-bg);
-    color: var(--card-color);
-    border: 1.5px solid transparent;
-    transition: all 0.24s ease;
+    letter-spacing: 0.3px;
+    color: var(--c1);
+    background: var(--soft);
+    border: 1px solid var(--ring);
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin-bottom: 26px;
+  }
+
+  .subject-meta .sep {
+    opacity: 0.45;
+  }
+
+  /* ---- Nút CTA duy nhất ---- */
+  .subject-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 22px;
+    border-radius: 15px;
     font-family: inherit;
-  }
-
-  .doc-btn .arrow {
-    font-size: 0.95rem;
-    transition: transform 0.24s ease;
-  }
-
-  .doc-btn:hover {
-    background: var(--card-gradient);
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.2px;
     color: var(--white);
-    border-color: var(--card-border);
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--c1), var(--c2));
+    box-shadow: 0 10px 24px var(--glow);
+    margin-top: auto;
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.26s ease,
+      filter 0.26s ease;
+  }
+
+  .subject-cta .arrow {
+    font-size: 1.05rem;
+    transition: transform 0.26s ease;
+  }
+
+  .subject-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 34px var(--glow);
+    filter: brightness(1.07);
+  }
+
+  .subject-cta:hover .arrow {
     transform: translateX(5px);
-    box-shadow: 0 8px 20px var(--card-shadow);
   }
 
-  .doc-btn:hover .arrow {
-    transform: translateX(4px);
+  .subject-cta:active {
+    transform: translateY(-1px) scale(0.99);
   }
 
-  /* Màu riêng cho từng môn */
+  /* Lớp sáng lướt qua nút */
+  .subject-cta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -130%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
+
+  .subject-cta:hover::before {
+    left: 145%;
+  }
+
+  /* ---- Bảng màu riêng cho từng môn ---- */
   .card-math {
-    --card-gradient: linear-gradient(135deg, #1d7ce8, #22d3ee);
-    --card-bg: #e8f4ff;
-    --card-color: #1461c9;
-    --card-border: #2b8ef5;
-    --card-shadow: rgba(29, 124, 232, 0.3);
+    --c1: #1461c9;
+    --c2: #22d3ee;
+    --soft: linear-gradient(135deg, rgba(29, 124, 232, 0.12), rgba(34, 211, 238, 0.18));
+    --ring: rgba(29, 124, 232, 0.22);
+    --glow: rgba(29, 124, 232, 0.32);
+    --glow-soft: rgba(34, 211, 238, 0.28);
   }
 
   .card-literature {
-    --card-gradient: linear-gradient(135deg, #f97316, #fbbf24);
-    --card-bg: #fff4e6;
-    --card-color: #c2410c;
-    --card-border: #f97316;
-    --card-shadow: rgba(249, 115, 22, 0.3);
+    --c1: #ea580c;
+    --c2: #fbbf24;
+    --soft: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(251, 191, 36, 0.20));
+    --ring: rgba(249, 115, 22, 0.24);
+    --glow: rgba(249, 115, 22, 0.30);
+    --glow-soft: rgba(251, 191, 36, 0.30);
   }
 
   .card-english {
-    --card-gradient: linear-gradient(135deg, #7c3aed, #a78bfa);
-    --card-bg: #f3ecff;
-    --card-color: #6d28d9;
-    --card-border: #7c3aed;
-    --card-shadow: rgba(124, 58, 237, 0.3);
+    --c1: #6d28d9;
+    --c2: #a78bfa;
+    --soft: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(167, 139, 250, 0.20));
+    --ring: rgba(124, 58, 237, 0.24);
+    --glow: rgba(124, 58, 237, 0.30);
+    --glow-soft: rgba(167, 139, 250, 0.30);
   }
 
   .card-science {
-    --card-gradient: linear-gradient(135deg, #059669, #34d399);
-    --card-bg: #e7f9f1;
-    --card-color: #047857;
-    --card-border: #059669;
-    --card-shadow: rgba(5, 150, 105, 0.3);
+    --c1: #047857;
+    --c2: #34d399;
+    --soft: linear-gradient(135deg, rgba(5, 150, 105, 0.12), rgba(52, 211, 153, 0.20));
+    --ring: rgba(5, 150, 105, 0.24);
+    --glow: rgba(5, 150, 105, 0.30);
+    --glow-soft: rgba(52, 211, 153, 0.30);
   }
 
-  /* ============ ĐÓNG GÓP ============ */
+  /* ================================================================
+     7. ĐÓNG GÓP
+     ================================================================ */
   .contribute-section {
     position: relative;
     overflow: hidden;
@@ -760,7 +1012,7 @@
     top: 0; left: -120%;
     width: 60%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
     transform: skewX(-20deg);
     animation: shine 3.2s infinite;
   }
@@ -828,7 +1080,9 @@
     font-weight: 500;
   }
 
-  /* ============ FOOTER ============ */
+  /* ================================================================
+     8. FOOTER
+     ================================================================ */
   footer {
     background: var(--blue-900);
     color: rgba(224, 242, 254, 0.75);
@@ -851,7 +1105,15 @@
 
   .footer-brand .logo {
     color: var(--white);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+  }
+
+  .footer-brand .logo .logo-text .line-1 {
+    color: rgba(186, 230, 253, 0.6);
+  }
+
+  .footer-brand .logo .logo-text .line-2 {
+    color: var(--white);
   }
 
   .footer-brand p {
@@ -901,7 +1163,9 @@
     color: #f87171;
   }
 
-  /* ============ NÚT LÊN ĐẦU TRANG ============ */
+  /* ================================================================
+     9. NÚT LÊN ĐẦU TRANG
+     ================================================================ */
   .to-top {
     position: fixed;
     right: 22px;
@@ -934,7 +1198,9 @@
     transform: translateY(-4px) scale(1.06);
   }
 
-  /* ============ ANIMATION XUẤT HIỆN ============ */
+  /* ================================================================
+     10. ANIMATION XUẤT HIỆN
+     ================================================================ */
   .reveal {
     opacity: 0;
     transform: translateY(28px);
@@ -946,8 +1212,11 @@
     transform: translateY(0);
   }
 
-  /* ============ RESPONSIVE ============ */
+  /* ================================================================
+     11. RESPONSIVE
+     ================================================================ */
   @media (max-width: 900px) {
+    /* --- Menu mobile --- */
     .nav-links {
       position: absolute;
       top: 72px;
@@ -964,6 +1233,8 @@
       opacity: 0;
       visibility: hidden;
       transition: transform 0.34s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.28s ease;
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
     }
 
     .nav-links.open {
@@ -972,26 +1243,71 @@
       visibility: visible;
     }
 
-    .nav-links a {
+    .nav-links > li > a {
       padding: 13px 16px;
       font-size: 1rem;
       background: var(--sky-50);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .nav-links a.nav-cta {
-      text-align: center;
+      justify-content: center;
       margin-top: 6px;
+    }
+
+    /* Dropdown chuyển thành danh sách con luôn hiển thị */
+    .dropdown-menu {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+      min-width: 0;
+      padding: 6px 0 0 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dropdown-menu::before {
+      display: none;
+    }
+
+    .dropdown-menu a {
+      background: var(--white);
+      border: 1px solid #e4f0fc;
+      border-left: 3px solid var(--blue-500);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 0.92rem;
+      white-space: normal;
+    }
+
+    .dropdown-menu a:hover {
+      transform: none;
+      background: var(--sky-50);
+    }
+
+    .dropdown-caret {
+      display: none;
     }
 
     .menu-toggle {
       display: flex;
     }
 
+    /* --- Countdown --- */
     .countdown-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
 
+    /* --- Đóng góp --- */
     .contribute-card {
       padding: 40px 24px;
     }
@@ -1012,18 +1328,27 @@
     .section { padding: 62px 0; }
     .nav-inner { height: 66px; }
     .nav-links { top: 66px; }
-    .logo { font-size: 1rem; }
-    .logo-icon { width: 36px; height: 36px; font-size: 1.1rem; }
+    .logo { gap: 9px; }
+    .logo img,
+    .logo .logo-fallback { width: 40px; height: 40px; border-radius: 10px; }
+    .logo-text .line-1 { font-size: 0.62rem; letter-spacing: 1.2px; }
+    .logo-text .line-2 { font-size: 0.98rem; }
     .hero-buttons { flex-direction: column; }
     .hero-buttons .btn { width: 100%; }
     .hero-stats { gap: 22px; }
     .stat-item .num { font-size: 1.5rem; }
     .count-box { padding: 20px 8px 16px; border-radius: 16px; }
-    .subject-card { padding: 26px 20px 22px; }
     .contribute-card { padding: 34px 20px; border-radius: 20px; }
     .btn-donate { width: 100%; padding: 17px 24px; font-size: 1rem; }
     .to-top { right: 16px; bottom: 16px; width: 46px; height: 46px; }
     .progress-caption { font-size: 0.72rem; }
+
+    /* Thẻ môn học gọn hơn trên điện thoại nhỏ */
+    .subject-grid { gap: 20px; }
+    .subject-card { padding: 34px 22px 26px; border-radius: 22px; }
+    .subject-icon { width: 78px; height: 78px; font-size: 2.3rem; border-radius: 24px; }
+    .subject-title { font-size: 1.3rem; }
+    .subject-desc { font-size: 0.88rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1038,19 +1363,57 @@
 </head>
 <body>
 
-<!-- ==================== NAVBAR ==================== -->
+<!-- ================================================================
+     NAVBAR (LOGO BẰNG ẢNH — logo.png)
+     ================================================================ -->
 <header class="navbar" id="navbar">
   <div class="container nav-inner">
-           <a href="#home" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-            <img src="logo.png" alt="Logo" style="height: 40px; width: 40px; border-radius: 50%; object-fit: cover;">
-            <span>Góc Tài Liệu <span class="accent">Lớp 7</span></span>
-        </a>
 
+    <!-- LOGO: ảnh logo.png + text -->
+    <a href="#home" class="logo">
+      <img src="logo.png" alt="Logo Góc Tài Liệu Lớp 7"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+      <span class="logo-fallback" style="display:none;">📚</span>
+      <span class="logo-text">
+        <span class="line-1">Góc Tài Liệu</span>
+        <span class="line-2">Lớp <span class="accent">7</span></span>
+      </span>
+    </a>
 
     <nav>
       <ul class="nav-links" id="navLinks">
         <li><a href="#home">Trang chủ</a></li>
-        <li><a href="#tai-lieu">Kho Tài Liệu</a></li>
+
+        <!-- Dropdown: Kho Tài Liệu -->
+        <li class="has-dropdown">
+          <a href="#tai-lieu">
+            Kho Tài Liệu
+            <span class="dropdown-caret">▾</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#mon-toan">
+                <span class="dd-dot dot-math"></span> Môn Toán
+              </a>
+            </li>
+            <li>
+              <a href="#mon-van">
+                <span class="dd-dot dot-literature"></span> Môn Ngữ Văn
+              </a>
+            </li>
+            <li>
+              <a href="#mon-anh">
+                <span class="dd-dot dot-english"></span> Môn Tiếng Anh
+              </a>
+            </li>
+            <li>
+              <a href="#mon-khtn">
+                <span class="dd-dot dot-science"></span> Khoa Học Tự Nhiên
+              </a>
+            </li>
+          </ul>
+        </li>
+
         <li><a href="#dem-nguoc">Đếm Ngược</a></li>
         <li><a href="#dong-gop" class="nav-cta">Đóng Góp Đề Thi</a></li>
       </ul>
@@ -1064,7 +1427,9 @@
   </div>
 </header>
 
-<!-- ==================== HERO ==================== -->
+<!-- ================================================================
+     HERO
+     ================================================================ -->
 <section class="hero" id="home">
   <div class="container hero-content">
     <div class="hero-badge">
@@ -1108,7 +1473,9 @@
   </div>
 </section>
 
-<!-- ==================== ĐẾM NGƯỢC ==================== -->
+<!-- ================================================================
+     ĐẾM NGƯỢC
+     ================================================================ -->
 <section class="section countdown-section" id="dem-nguoc">
   <div class="container countdown-wrap">
     <div class="section-head">
@@ -1153,106 +1520,134 @@
   </div>
 </section>
 
-<!-- ==================== KHO TÀI LIỆU ==================== -->
+<!-- ================================================================
+     KHO TÀI LIỆU — 4 THẺ MÔN HỌC (TỐI GIẢN, 1 NÚT / MÔN)
+     ================================================================ -->
 <section class="section docs-section" id="tai-lieu">
   <div class="container">
     <div class="section-head">
       <span class="section-tag">📂 Kho tài liệu</span>
       <h2>Tài liệu 4 môn học trọng tâm</h2>
-      <p>Chọn môn học của bạn và tải ngay bộ đề phù hợp. Tất cả đều miễn phí và được cập nhật liên tục!</p>
+      <p>Chọn môn học của bạn và mở ngay kho đề tổng hợp. Tất cả đều miễn phí và được cập nhật liên tục!</p>
     </div>
 
     <div class="subject-grid">
 
-      <!-- TOÁN -->
-      <article class="subject-card card-math reveal">
-        <div class="subject-icon">📐</div>
-        <h3>Môn Toán</h3>
-        <p class="subject-desc">Đại số, Hình học, Xác suất thống kê — luyện tư duy logic và kỹ năng giải toán.</p>
-        <div class="subject-actions">
-          <a href="#" class="doc-btn">
-            <span>📝 Đề kiểm tra 15 phút</span>
+      <!-- ==================== MÔN TOÁN ==================== -->
+      <div class="subject-item" id="mon-toan">
+        <article class="subject-card card-math reveal">
+          <div class="subject-icon">📐</div>
+          <h3 class="subject-title">Toán Học</h3>
+          <p class="subject-desc">
+            Đại số, Hình học, Xác suất thống kê — rèn tư duy logic và kỹ năng giải toán.
+          </p>
+          <div class="subject-meta">
+            <span>Kiểm tra 15'</span>
+            <span class="sep">•</span>
+            <span>Giữa kỳ</span>
+            <span class="sep">•</span>
+            <span>Cuối kỳ</span>
+          </div>
+          <a
+            href="YOUR_GOOGLE_DRIVE_LINK_HERE"
+            class="subject-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Vào Kho Tài Liệu
             <span class="arrow">→</span>
           </a>
-          <a href="#" class="doc-btn">
-            <span>📘 Đề thi giữa kỳ</span>
-            <span class="arrow">→</span>
-          </a>
-          <a href="#" class="doc-btn">
-            <span>🏆 Đề thi cuối kỳ</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
+        </article>
+      </div>
 
-      <!-- NGỮ VĂN -->
-      <article class="subject-card card-literature reveal">
-        <div class="subject-icon">📖</div>
-        <h3>Môn Ngữ Văn</h3>
-        <p class="subject-desc">Đọc hiểu văn bản, nghị luận xã hội và cảm nhận văn học — viết hay, viết sâu.</p>
-        <div class="subject-actions">
-          <a href="#" class="doc-btn">
-            <span>📝 Đề kiểm tra 15 phút</span>
+      <!-- ==================== MÔN NGỮ VĂN ==================== -->
+      <div class="subject-item" id="mon-van">
+        <article class="subject-card card-literature reveal">
+          <div class="subject-icon">📖</div>
+          <h3 class="subject-title">Ngữ Văn</h3>
+          <p class="subject-desc">
+            Đọc hiểu văn bản, nghị luận xã hội và cảm nhận văn học — viết hay, viết sâu.
+          </p>
+          <div class="subject-meta">
+            <span>Kiểm tra 15'</span>
+            <span class="sep">•</span>
+            <span>Giữa kỳ</span>
+            <span class="sep">•</span>
+            <span>Cuối kỳ</span>
+          </div>
+          <a
+            href="YOUR_GOOGLE_DRIVE_LINK_HERE"
+            class="subject-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Vào Kho Tài Liệu
             <span class="arrow">→</span>
           </a>
-          <a href="#" class="doc-btn">
-            <span>📘 Đề thi giữa kỳ</span>
-            <span class="arrow">→</span>
-          </a>
-          <a href="#" class="doc-btn">
-            <span>🏆 Đề thi cuối kỳ</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
+        </article>
+      </div>
 
-      <!-- TIẾNG ANH -->
-      <article class="subject-card card-english reveal">
-        <div class="subject-icon">🌐</div>
-        <h3>Môn Tiếng Anh</h3>
-        <p class="subject-desc">Ngữ pháp, từ vựng, đọc hiểu và viết — tự tin giao tiếp và đạt điểm cao.</p>
-        <div class="subject-actions">
-          <a href="#" class="doc-btn">
-            <span>📝 Đề kiểm tra 15 phút</span>
+      <!-- ==================== MÔN TIẾNG ANH ==================== -->
+      <div class="subject-item" id="mon-anh">
+        <article class="subject-card card-english reveal">
+          <div class="subject-icon">🌐</div>
+          <h3 class="subject-title">Tiếng Anh</h3>
+          <p class="subject-desc">
+            Ngữ pháp, từ vựng, đọc hiểu và viết — tự tin giao tiếp và đạt điểm cao.
+          </p>
+          <div class="subject-meta">
+            <span>Kiểm tra 15'</span>
+            <span class="sep">•</span>
+            <span>Giữa kỳ</span>
+            <span class="sep">•</span>
+            <span>Cuối kỳ</span>
+          </div>
+          <a
+            href="YOUR_GOOGLE_DRIVE_LINK_HERE"
+            class="subject-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Vào Kho Tài Liệu
             <span class="arrow">→</span>
           </a>
-          <a href="#" class="doc-btn">
-            <span>📘 Đề thi giữa kỳ</span>
-            <span class="arrow">→</span>
-          </a>
-          <a href="#" class="doc-btn">
-            <span>🏆 Đề thi cuối kỳ</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
+        </article>
+      </div>
 
-      <!-- KHTN -->
-      <article class="subject-card card-science reveal">
-        <div class="subject-icon">🔬</div>
-        <h3>Môn Khoa Học Tự Nhiên</h3>
-        <p class="subject-desc">Vật lí, Hóa học, Sinh học — khám phá thế giới tự nhiên đầy thú vị xung quanh em.</p>
-        <div class="subject-actions">
-          <a href="#" class="doc-btn">
-            <span>📝 Đề kiểm tra 15 phút</span>
+      <!-- ==================== MÔN KHTN ==================== -->
+      <div class="subject-item" id="mon-khtn">
+        <article class="subject-card card-science reveal">
+          <div class="subject-icon">🔬</div>
+          <h3 class="subject-title">Khoa Học Tự Nhiên</h3>
+          <p class="subject-desc">
+            Vật lí, Hóa học, Sinh học — khám phá thế giới tự nhiên đầy thú vị quanh em.
+          </p>
+          <div class="subject-meta">
+            <span>Kiểm tra 15'</span>
+            <span class="sep">•</span>
+            <span>Giữa kỳ</span>
+            <span class="sep">•</span>
+            <span>Cuối kỳ</span>
+          </div>
+          <a
+            href="YOUR_GOOGLE_DRIVE_LINK_HERE"
+            class="subject-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Vào Kho Tài Liệu
             <span class="arrow">→</span>
           </a>
-          <a href="#" class="doc-btn">
-            <span>📘 Đề thi giữa kỳ</span>
-            <span class="arrow">→</span>
-          </a>
-          <a href="#" class="doc-btn">
-            <span>🏆 Đề thi cuối kỳ</span>
-            <span class="arrow">→</span>
-          </a>
-        </div>
-      </article>
+        </article>
+      </div>
 
     </div>
   </div>
 </section>
 
-<!-- ==================== ĐÓNG GÓP ==================== -->
+<!-- ================================================================
+     ĐÓNG GÓP
+     ================================================================ -->
 <section class="contribute-section" id="dong-gop">
   <div class="container">
     <div class="contribute-card reveal">
@@ -1299,14 +1694,21 @@
   </div>
 </section>
 
-<!-- ==================== FOOTER ==================== -->
+<!-- ================================================================
+     FOOTER
+     ================================================================ -->
 <footer>
   <div class="container">
     <div class="footer-inner">
       <div class="footer-brand">
         <a href="#home" class="logo">
-          <span class="logo-icon">📚</span>
-          <span>Góc Tài Liệu Lớp 7</span>
+          <img src="logo.png" alt="Logo Góc Tài Liệu Lớp 7"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+          <span class="logo-fallback" style="display:none;">📚</span>
+          <span class="logo-text">
+            <span class="line-1">Góc Tài Liệu</span>
+            <span class="line-2">Lớp <span class="accent">7</span></span>
+          </span>
         </a>
         <p>
           Dự án phi lợi nhuận được xây dựng bởi chính học sinh, vì học sinh.
@@ -1327,10 +1729,10 @@
       <div class="footer-col">
         <h4>Môn học</h4>
         <ul>
-          <li><a href="#tai-lieu">Toán</a></li>
-          <li><a href="#tai-lieu">Ngữ Văn</a></li>
-          <li><a href="#tai-lieu">Tiếng Anh</a></li>
-          <li><a href="#tai-lieu">Khoa Học Tự Nhiên</a></li>
+          <li><a href="#mon-toan">Môn Toán</a></li>
+          <li><a href="#mon-van">Môn Ngữ Văn</a></li>
+          <li><a href="#mon-anh">Môn Tiếng Anh</a></li>
+          <li><a href="#mon-khtn">Khoa Học Tự Nhiên</a></li>
         </ul>
       </div>
     </div>
@@ -1357,7 +1759,7 @@ menuToggle.addEventListener('click', function () {
   menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 });
 
-// Đóng menu khi bấm vào 1 link
+// Đóng menu khi bấm vào 1 link bất kỳ trong menu
 navLinks.querySelectorAll('a').forEach(function (link) {
   link.addEventListener('click', function () {
     navLinks.classList.remove('open');
@@ -1555,28 +1957,65 @@ if ('IntersectionObserver' in window) {
 }
 
 /* ==================================================
-   6. HIỆU ỨNG GÕ CHỮ NHẸ CHO SLOGAN (TÙY CHỌN)
+   6. CUỘN MƯỢT CHO TẤT CẢ LINK NEO
+   (bao gồm #mon-toan, #mon-van, #mon-anh, #mon-khtn)
    ================================================== */
-// Giữ nguyên slogan tĩnh để đảm bảo hiển thị tốt trên mọi thiết bị.
-// Nếu muốn bật hiệu ứng gõ chữ, bạn có thể tự thêm vào đây.
+document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+  anchor.addEventListener('click', function (e) {
+    const targetId = anchor.getAttribute('href');
+    if (!targetId || targetId === '#' || targetId.length < 2) return;
 
-/* ==================================================
-   7. XỬ LÝ NÚT TẢI ĐỀ (THÔNG BÁO TẠM THỜI)
-   -> Khi bạn chèn link Google Drive thật, hãy xóa
-      hoặc sửa đoạn này để link hoạt động bình thường.
-   ================================================== */
-document.querySelectorAll('.doc-btn').forEach(function (btn) {
-  btn.addEventListener('click', function (e) {
-    const href = btn.getAttribute('href');
-    if (!href || href === '#') {
-      e.preventDefault();
-      showToast('📌 Link tài liệu đang được cập nhật. Bạn quay lại sau nhé!');
+    const targetEl = document.querySelector(targetId);
+    if (!targetEl) return;
+
+    e.preventDefault();
+
+    const navHeight = navbar.offsetHeight + 14;
+    const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navHeight;
+
+    window.scrollTo({
+      top: topPos < 0 ? 0 : topPos,
+      behavior: 'smooth'
+    });
+
+    // Cập nhật hash trên URL mà không nhảy trang
+    if (history.pushState) {
+      history.pushState(null, '', targetId);
     }
   });
 });
 
 /* ==================================================
-   8. TOAST THÔNG BÁO
+   7. XỬ LÝ NÚT "VÀO KHO TÀI LIỆU"
+   -> Khi bạn thay "YOUR_GOOGLE_DRIVE_LINK_HERE" bằng link thật,
+      đoạn code này sẽ tự động bỏ qua và link mở bình thường.
+   ================================================== */
+document.querySelectorAll('.subject-cta').forEach(function (btn) {
+  btn.addEventListener('click', function (e) {
+    const href = btn.getAttribute('href');
+    if (!href || href === '#' || href === 'YOUR_GOOGLE_DRIVE_LINK_HERE') {
+      e.preventDefault();
+      showToast('📌 Link Google Drive của môn này đang được cập nhật. Bạn quay lại sau nhé!');
+    }
+  });
+});
+
+/* ==================================================
+   8. XỬ LÝ NÚT ĐÓNG GÓP
+   ================================================== */
+const donateBtn = document.querySelector('.btn-donate');
+if (donateBtn) {
+  donateBtn.addEventListener('click', function (e) {
+    const href = donateBtn.getAttribute('href');
+    if (!href || href === '#') {
+      e.preventDefault();
+      showToast('📝 Biểu mẫu đóng góp đang được hoàn thiện. Cảm ơn bạn đã quan tâm! 💙');
+    }
+  });
+}
+
+/* ==================================================
+   9. TOAST THÔNG BÁO
    ================================================== */
 function showToast(message) {
   let toast = document.getElementById('appToast');
@@ -1622,46 +2061,7 @@ function showToast(message) {
 }
 
 /* ==================================================
-   9. XỬ LÝ NÚT ĐÓNG GÓP (THÔNG BÁO TẠM THỜI)
-   -> Khi bạn chèn link Google Form thật, hãy xóa
-      hoặc sửa đoạn này.
-   ================================================== */
-const donateBtn = document.querySelector('.btn-donate');
-if (donateBtn) {
-  donateBtn.addEventListener('click', function (e) {
-    const href = donateBtn.getAttribute('href');
-    if (!href || href === '#') {
-      e.preventDefault();
-      showToast('📝 Biểu mẫu đóng góp đang được hoàn thiện. Cảm ơn bạn đã quan tâm! 💙');
-    }
-  });
-}
-
-/* ==================================================
-   10. CUỘN MƯỢT CHO CÁC LINK NEO (FALLBACK)
-   ================================================== */
-document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-  anchor.addEventListener('click', function (e) {
-    const targetId = anchor.getAttribute('href');
-    if (targetId === '#' || targetId.length < 2) return;
-
-    const targetEl = document.querySelector(targetId);
-    if (!targetEl) return;
-
-    e.preventDefault();
-
-    const navHeight = navbar.offsetHeight + 12;
-    const topPos = targetEl.getBoundingClientRect().top + window.scrollY - navHeight;
-
-    window.scrollTo({
-      top: topPos < 0 ? 0 : topPos,
-      behavior: 'smooth'
-    });
-  });
-});
-
-/* ==================================================
-   11. LOG NHẸ NHÀNG (CHO VUI)
+   10. LOG NHẸ NHÀNG (CHO VUI)
    ================================================== */
 console.log(
   '%c📚 Góc Tài Liệu Lớp 7 %c Học hết sức, chơi hết mình, rinh điểm 10! 🚀',
