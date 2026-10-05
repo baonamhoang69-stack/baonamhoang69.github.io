@@ -81,17 +81,17 @@
     gap: 16px;
   }
 
-  /* --- Logo: ẢNH + TEXT --- */
+  /* --- Logo (cấu trúc img + span accent) --- */
   .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    text-decoration: none;
     font-weight: 900;
     font-size: 1.15rem;
     color: var(--blue-900);
-    text-decoration: none;
-    white-space: nowrap;
     letter-spacing: -0.3px;
+    white-space: nowrap;
     transition: transform 0.25s ease;
   }
 
@@ -100,13 +100,12 @@
   }
 
   .logo img {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    object-fit: contain;
-    background: transparent;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
     flex-shrink: 0;
-    filter: drop-shadow(0 4px 10px rgba(34, 211, 238, 0.30));
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.28);
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
@@ -114,41 +113,7 @@
     transform: rotate(-6deg) scale(1.06);
   }
 
-  /* Fallback nếu ảnh logo.png không tồn tại: hiển thị khối gradient */
-  .logo .logo-fallback {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
-    display: grid;
-    place-items: center;
-    font-size: 1.4rem;
-    box-shadow: 0 6px 16px rgba(34, 211, 238, 0.35);
-    flex-shrink: 0;
-  }
-
-  .logo-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-  }
-
-  .logo-text .line-1 {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
-    color: var(--gray-500);
-  }
-
-  .logo-text .line-2 {
-    font-size: 1.1rem;
-    font-weight: 900;
-    letter-spacing: -0.4px;
-    color: var(--blue-900);
-  }
-
-  .logo-text .line-2 .accent {
+  .logo .accent {
     background: linear-gradient(135deg, var(--blue-600), var(--cyan-400));
     -webkit-background-clip: text;
     background-clip: text;
@@ -671,7 +636,7 @@
   }
 
   /* ================================================================
-     6. KHO TÀI LIỆU — THIẾT KẾ TỐI GIẢN (1 THẺ / 1 MÔN)
+     6. KHO TÀI LIỆU — 4 THẺ MÔN HỌC (1 NÚT / MÔN)
      ================================================================ */
   .docs-section {
     background:
@@ -687,7 +652,6 @@
     align-items: stretch;
   }
 
-  /* Wrapper giữ ID để cuộn mượt */
   .subject-item {
     display: flex;
     scroll-margin-top: 96px;
@@ -712,7 +676,6 @@
       border-color 0.38s ease;
   }
 
-  /* Thanh màu gradient trên đỉnh thẻ */
   .subject-card::before {
     content: "";
     position: absolute;
@@ -724,7 +687,6 @@
     transition: height 0.35s ease;
   }
 
-  /* Vệt sáng mờ phía sau icon */
   .subject-card::after {
     content: "";
     position: absolute;
@@ -817,7 +779,6 @@
     opacity: 0.45;
   }
 
-  /* ---- Nút CTA duy nhất ---- */
   .subject-cta {
     display: inline-flex;
     align-items: center;
@@ -862,7 +823,6 @@
     transform: translateY(-1px) scale(0.99);
   }
 
-  /* Lớp sáng lướt qua nút */
   .subject-cta::before {
     content: "";
     position: absolute;
@@ -1108,12 +1068,11 @@
     margin-bottom: 14px;
   }
 
-  .footer-brand .logo .logo-text .line-1 {
-    color: rgba(186, 230, 253, 0.6);
-  }
-
-  .footer-brand .logo .logo-text .line-2 {
-    color: var(--white);
+  .footer-brand .logo .accent {
+    background: linear-gradient(135deg, var(--cyan-300), var(--cyan-400));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .footer-brand p {
@@ -1216,7 +1175,6 @@
      11. RESPONSIVE
      ================================================================ */
   @media (max-width: 900px) {
-    /* --- Menu mobile --- */
     .nav-links {
       position: absolute;
       top: 72px;
@@ -1257,7 +1215,6 @@
       margin-top: 6px;
     }
 
-    /* Dropdown chuyển thành danh sách con luôn hiển thị */
     .dropdown-menu {
       position: static;
       opacity: 1;
@@ -1301,13 +1258,11 @@
       display: flex;
     }
 
-    /* --- Countdown --- */
     .countdown-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
 
-    /* --- Đóng góp --- */
     .contribute-card {
       padding: 40px 24px;
     }
@@ -1328,11 +1283,8 @@
     .section { padding: 62px 0; }
     .nav-inner { height: 66px; }
     .nav-links { top: 66px; }
-    .logo { gap: 9px; }
-    .logo img,
-    .logo .logo-fallback { width: 40px; height: 40px; border-radius: 10px; }
-    .logo-text .line-1 { font-size: 0.62rem; letter-spacing: 1.2px; }
-    .logo-text .line-2 { font-size: 0.98rem; }
+    .logo { font-size: 1rem; gap: 9px; }
+    .logo img { height: 36px; width: 36px; }
     .hero-buttons { flex-direction: column; }
     .hero-buttons .btn { width: 100%; }
     .hero-stats { gap: 22px; }
@@ -1343,7 +1295,6 @@
     .to-top { right: 16px; bottom: 16px; width: 46px; height: 46px; }
     .progress-caption { font-size: 0.72rem; }
 
-    /* Thẻ môn học gọn hơn trên điện thoại nhỏ */
     .subject-grid { gap: 20px; }
     .subject-card { padding: 34px 22px 26px; border-radius: 22px; }
     .subject-icon { width: 78px; height: 78px; font-size: 2.3rem; border-radius: 24px; }
@@ -1364,20 +1315,15 @@
 <body>
 
 <!-- ================================================================
-     NAVBAR (LOGO BẰNG ẢNH — logo.png)
+     NAVBAR
      ================================================================ -->
 <header class="navbar" id="navbar">
   <div class="container nav-inner">
 
-    <!-- LOGO: ảnh logo.png + text -->
-    <a href="#home" class="logo">
-      <img src="logo.png" alt="Logo Góc Tài Liệu Lớp 7"
-           onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-      <span class="logo-fallback" style="display:none;">📚</span>
-      <span class="logo-text">
-        <span class="line-1">Góc Tài Liệu</span>
-        <span class="line-2">Lớp <span class="accent">7</span></span>
-      </span>
+    <!-- LOGO BRAND — cấu trúc img chính xác như yêu cầu -->
+    <a href="#home" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+      <img src="logo.png" alt="Logo" style="height: 40px; width: 40px; border-radius: 50%; object-fit: cover;">
+      <span>Góc Tài Liệu <span class="accent">Lớp 7</span></span>
     </a>
 
     <nav>
@@ -1521,7 +1467,7 @@
 </section>
 
 <!-- ================================================================
-     KHO TÀI LIỆU — 4 THẺ MÔN HỌC (TỐI GIẢN, 1 NÚT / MÔN)
+     KHO TÀI LIỆU — 4 THẺ MÔN HỌC (1 THẺ / 1 MÔN / 1 NÚT)
      ================================================================ -->
 <section class="section docs-section" id="tai-lieu">
   <div class="container">
@@ -1701,14 +1647,9 @@
   <div class="container">
     <div class="footer-inner">
       <div class="footer-brand">
-        <a href="#home" class="logo">
-          <img src="logo.png" alt="Logo Góc Tài Liệu Lớp 7"
-               onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-          <span class="logo-fallback" style="display:none;">📚</span>
-          <span class="logo-text">
-            <span class="line-1">Góc Tài Liệu</span>
-            <span class="line-2">Lớp <span class="accent">7</span></span>
-          </span>
+        <a href="#home" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+          <img src="logo.png" alt="Logo" style="height: 40px; width: 40px; border-radius: 50%; object-fit: cover;">
+          <span>Góc Tài Liệu <span class="accent">Lớp 7</span></span>
         </a>
         <p>
           Dự án phi lợi nhuận được xây dựng bởi chính học sinh, vì học sinh.
@@ -1759,7 +1700,6 @@ menuToggle.addEventListener('click', function () {
   menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 });
 
-// Đóng menu khi bấm vào 1 link bất kỳ trong menu
 navLinks.querySelectorAll('a').forEach(function (link) {
   link.addEventListener('click', function () {
     navLinks.classList.remove('open');
@@ -1768,7 +1708,6 @@ navLinks.querySelectorAll('a').forEach(function (link) {
   });
 });
 
-// Đóng menu khi click ra ngoài
 document.addEventListener('click', function (e) {
   if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
     navLinks.classList.remove('open');
@@ -1778,7 +1717,7 @@ document.addEventListener('click', function (e) {
 });
 
 /* ==================================================
-   2. NAVBAR SCROLL EFFECT + NÚT LÊN ĐẦU TRANG
+   2. NAVBAR SCROLL + NÚT LÊN ĐẦU TRANG
    ================================================== */
 const navbar = document.getElementById('navbar');
 const toTop  = document.getElementById('toTop');
@@ -1804,12 +1743,10 @@ toTop.addEventListener('click', function () {
 });
 
 /* ==================================================
-   3. ĐỒNG HỒ ĐẾM NGƯỢC
-   Mốc: Kỳ nghỉ hè năm học 2026 - 2027
-   -> 00:00 ngày 31/05/2027
+   3. ĐỒNG HỒ ĐẾM NGƯỢC — 31/05/2027
    ================================================== */
-const TARGET_DATE = new Date(2027, 4, 31, 0, 0, 0); // Tháng 5 = index 4
-const START_DATE  = new Date(2026, 8, 5, 0, 0, 0);  // 05/09/2026 - đầu năm học
+const TARGET_DATE = new Date(2027, 4, 31, 0, 0, 0);
+const START_DATE  = new Date(2026, 8, 5, 0, 0, 0);
 
 const elDays    = document.getElementById('days');
 const elHours   = document.getElementById('hours');
@@ -1864,7 +1801,6 @@ function updateCountdown() {
   elMinutes.textContent = pad(minutes);
   elSeconds.textContent = pad(seconds);
 
-  // Thông điệp động theo số ngày còn lại
   if (days > 200) {
     elNote.innerHTML = 'Còn <strong>' + days + ' ngày</strong> nữa là tới kỳ nghỉ hè 2027. Cả năm học dài phía trước — cùng nhau chinh phục nhé! 💪';
   } else if (days > 100) {
@@ -1884,7 +1820,7 @@ updateCountdown();
 setInterval(updateCountdown, 1000);
 
 /* ==================================================
-   4. ĐẾM SỐ LIỆU Ở HERO (ANIMATION)
+   4. ĐẾM SỐ LIỆU Ở HERO
    ================================================== */
 const counters = document.querySelectorAll('[data-count]');
 
@@ -1895,7 +1831,6 @@ function animateCounter(el) {
 
   function step(ts) {
     const progress = Math.min((ts - startTs) / duration, 1);
-    // easeOutCubic
     const eased = 1 - Math.pow(1 - progress, 3);
     el.textContent = Math.round(eased * target);
 
@@ -1926,7 +1861,7 @@ window.addEventListener('scroll', checkCounters, { passive: true });
 window.addEventListener('load', checkCounters);
 
 /* ==================================================
-   5. HIỆU ỨNG XUẤT HIỆN KHI CUỘN (REVEAL)
+   5. HIỆU ỨNG REVEAL KHI CUỘN
    ================================================== */
 const revealEls = document.querySelectorAll('.reveal');
 
@@ -1934,7 +1869,6 @@ if ('IntersectionObserver' in window) {
   const revealObserver = new IntersectionObserver(function (entries, observer) {
     entries.forEach(function (entry, index) {
       if (entry.isIntersecting) {
-        // Delay nhẹ để tạo hiệu ứng lần lượt
         setTimeout(function () {
           entry.target.classList.add('visible');
         }, index * 90);
@@ -1950,15 +1884,14 @@ if ('IntersectionObserver' in window) {
     revealObserver.observe(el);
   });
 } else {
-  // Fallback cho trình duyệt cũ
   revealEls.forEach(function (el) {
     el.classList.add('visible');
   });
 }
 
 /* ==================================================
-   6. CUỘN MƯỢT CHO TẤT CẢ LINK NEO
-   (bao gồm #mon-toan, #mon-van, #mon-anh, #mon-khtn)
+   6. CUỘN MƯỢT CHO LINK NEO
+   Bao gồm #mon-toan, #mon-van, #mon-anh, #mon-khtn
    ================================================== */
 document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
   anchor.addEventListener('click', function (e) {
@@ -1978,7 +1911,6 @@ document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
       behavior: 'smooth'
     });
 
-    // Cập nhật hash trên URL mà không nhảy trang
     if (history.pushState) {
       history.pushState(null, '', targetId);
     }
@@ -1987,8 +1919,6 @@ document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
 
 /* ==================================================
    7. XỬ LÝ NÚT "VÀO KHO TÀI LIỆU"
-   -> Khi bạn thay "YOUR_GOOGLE_DRIVE_LINK_HERE" bằng link thật,
-      đoạn code này sẽ tự động bỏ qua và link mở bình thường.
    ================================================== */
 document.querySelectorAll('.subject-cta').forEach(function (btn) {
   btn.addEventListener('click', function (e) {
@@ -2061,7 +1991,7 @@ function showToast(message) {
 }
 
 /* ==================================================
-   10. LOG NHẸ NHÀNG (CHO VUI)
+   10. LOG NHẸ NHÀNG
    ================================================== */
 console.log(
   '%c📚 Góc Tài Liệu Lớp 7 %c Học hết sức, chơi hết mình, rinh điểm 10! 🚀',
