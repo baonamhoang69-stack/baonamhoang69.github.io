@@ -57,7 +57,7 @@
   }
 
   /* ================================================================
-     2. NAVBAR (LOGO BẰNG ẢNH — logo.png)
+     2. NAVBAR (LOGO BẰNG ẢNH — logo.png, KÍCH THƯỚC 55px)
      ================================================================ */
   .navbar {
     position: sticky;
@@ -78,15 +78,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 72px;
+    height: 80px;
     gap: 16px;
   }
 
-  /* --- Logo brand (img + span accent) --- */
+  /* --- Logo brand (img 55px + span accent) --- */
   .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     text-decoration: none;
     font-weight: 900;
     font-size: 1.15rem;
@@ -101,8 +101,8 @@
   }
 
   .logo img {
-    height: 40px;
-    width: 40px;
+    height: 55px;
+    width: 55px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
@@ -655,7 +655,7 @@
 
   .subject-item {
     display: flex;
-    scroll-margin-top: 96px;
+    scroll-margin-top: 100px;
   }
 
   .subject-card {
@@ -1176,9 +1176,13 @@
      11. RESPONSIVE
      ================================================================ */
   @media (max-width: 900px) {
+    .nav-inner {
+      height: 76px;
+    }
+
     .nav-links {
       position: absolute;
-      top: 72px;
+      top: 76px;
       left: 0;
       right: 0;
       flex-direction: column;
@@ -1282,10 +1286,10 @@
     .container { padding: 0 16px; }
     .hero { padding: 56px 0 68px; }
     .section { padding: 62px 0; }
-    .nav-inner { height: 66px; }
-    .nav-links { top: 66px; }
-    .logo { font-size: 1rem; gap: 9px; }
-    .logo img { height: 36px; width: 36px; }
+    .nav-inner { height: 70px; }
+    .nav-links { top: 70px; }
+    .logo { font-size: 1rem; gap: 12px; }
+    .logo img { height: 45px; width: 45px; }
     .hero-buttons { flex-direction: column; }
     .hero-buttons .btn { width: 100%; }
     .hero-stats { gap: 22px; }
@@ -1316,14 +1320,15 @@
 <body>
 
 <!-- ================================================================
-     NAVBAR
+     NAVBAR (LOGO 55px)
      ================================================================ -->
 <header class="navbar" id="navbar">
   <div class="container nav-inner">
 
-    <!-- LOGO BRAND — ảnh logo.png -->
+    <!-- LOGO BRAND — ảnh logo.png 55x55, gap 15px -->
     <a href="#home" class="logo">
-      <img src="logo.png" alt="Logo Góc Tài Liệu Lớp 7">
+      <img src="logo.png" alt="Logo Góc Tài Liệu Lớp 7"
+           style="height: 55px; width: 55px; border-radius: 50%; object-fit: cover;">
       <span>Góc Tài Liệu <span class="accent">Lớp 7</span></span>
     </a>
 
@@ -1649,7 +1654,8 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <a href="#home" class="logo">
-          <img src="logo.png" alt="Logo Góc Tài Liệu Lớp 7">
+          <img src="logo.png" alt="Logo Góc Tài Liệu Lớp 7"
+               style="height: 55px; width: 55px; border-radius: 50%; object-fit: cover;">
           <span>Góc Tài Liệu <span class="accent">Lớp 7</span></span>
         </a>
         <p>
